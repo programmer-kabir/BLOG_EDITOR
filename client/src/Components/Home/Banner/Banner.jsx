@@ -1,44 +1,45 @@
-import React from "react";
+import React, { useRef, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import "swiper/css";
 import BannerImage from "../../../assets/Banner/Green Minimalist Blog Post Linkedin Article Cover (1).png";
 import BannerImage1 from "../../../assets/Banner/Green Minimalist Blog Post Linkedin Article Cover.png";
 import BannerImage2 from "../../../assets/Banner/happy-programmers-day-banner-modern-style_541170-3193.png";
 import "./Banner.css";
+
+
 const Banner = () => {
   return (
     <section className="relative">
-      <div className="">
-        {/* <img
-          className="h-[450px] w-full object-cover"
-          // src={BannerImage}
-          src="https://trendys.vercel.app/assets/Trendy%20Banner-Cer6Yw6Z.png"
-          alt=""
-        /> */}
-        <img
-        
-        className="h-[200px] md:h-[450px] w-full object-fill"
-        src={BannerImage}
-        //   src="https://trendys.vercel.app/assets/Trendy%20Banner-Cer6Yw6Z.png"
-          alt=""
-        />
-      </div>
-
-      {/* <div className="absolute right-0 inset-0 flex flex-col justify-center items-end space-y-4 md:pr-20 pr-5">
-        <div className="md:text-center space-y-2">
-          <h1 className="uppercase text-4xl md:text-8xl font-bold bannerHeder">
-            <span className="text-transparent stroke-white stroke-2">
-              Grand
-            </span>{" "}
-            <br />
-            <span className="text-[#f50400]">Opening</span>
-          </h1>
-          <p className="bannerText text-white text-3xl italic font-bold">
-            Sale on All Items
-          </p>
-          <button className="px-8 bannerButton py-2 bg-[#f50400] text-white font-semibold text-xl">
-            Buy Now
-          </button>
-        </div>
-      </div> */}
+      <Swiper className="mySwiper">
+        <SwiperSlide>
+          <img
+            className="h-[200px] rounded-md md:h-[450px] w-full object-fill"
+            src={BannerImage1}
+            alt=""
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img
+            className="h-[200px] md:h-[450px] w-full object-fill"
+            src={BannerImage}
+            alt=""
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img
+            className="h-[200px] md:h-[450px] w-full object-fill"
+            src={BannerImage2}
+            alt=""
+          />
+        </SwiperSlide>
+        {/* <SwiperSlide>Slide 4</SwiperSlide>
+        <SwiperSlide>Slide 5</SwiperSlide>
+        <SwiperSlide>Slide 6</SwiperSlide>
+        <SwiperSlide>Slide 7</SwiperSlide>
+        <SwiperSlide>Slide 8</SwiperSlide>
+        <SwiperSlide>Slide 9</SwiperSlide> */}
+      </Swiper>
     </section>
   );
 };

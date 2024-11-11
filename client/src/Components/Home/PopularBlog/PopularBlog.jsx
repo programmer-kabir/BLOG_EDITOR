@@ -1,17 +1,70 @@
 import React from "react";
 import BlogCard from "../../Design/BlogCard";
-const data = [
+import { IoMdArrowDropright } from "react-icons/io";
+const datas = [
   {
+    _id: 1,
+    email: "abc@gmail.com",
     image: "https://i.ibb.co/b2gzYjy/Designer-3.png",
     title: "The Importance of Staying Active: A Guide to Fitness",
     category: "programming",
-    introduction:
-      "In today's fast-paced world, staying active has become more important than ever. With the rise of sedentary lifestyles, it's crucial to prioritize physical health in our daily routines. This blog post will explore the importance of staying active, the benefits of regular exercise, and some simple steps to incorporate more movement into your day.",
-    content: [
-        {
-            
-        }
-    ],
+    content:
+      "Discover the benefits of staying active for both mental and physical well-being.",
+    like: 15,
+  },
+  {
+    _id: 2,
+    email: "def@gmail.com",
+    image: "https://i.ibb.co/ZcmkJCD/b8daeeff5e14c75f79ada4e7dafaf5aa.webp",
+    title: "Mastering JavaScript: Tips and Tricks",
+    category: "programming",
+    content:
+      "Enhance your JavaScript skills with these expert tips and best practices.",
+    like: 22,
+  },
+  {
+    _id: 3,
+    email: "ghi@gmail.com",
+    image:
+      "https://blogplex.vercel.app/_next/image?url=https%3A%2F%2Fi.ibb.co%2Fr4gZ13w%2F16506252af710b73c45962ea07b2d1d6.webp&w=1920&q=100",
+    title: "Healthy Eating: Meal Plans and Recipes",
+    category: "programming",
+    content:
+      "Create nutritious meal plans and discover healthy recipes for a balanced diet.",
+    like: 30,
+  },
+  {
+    _id: 4,
+    email: "jkl@gmail.com",
+    image:
+      "https://blogplex.vercel.app/_next/image?url=https%3A%2F%2Fi.ibb.co%2FyYWzV99%2Fd14049aabb57d1ecc1ca536eff236940.webp&w=1920&q=100",
+    title: "UI/UX Design Trends for 2024",
+    category: "technology",
+    content:
+      "Stay updated with the latest UI/UX design trends that will dominate in 2024.",
+    like: 18,
+  },
+  {
+    _id: 5,
+    email: "mno@gmail.com",
+    image:
+      "https://blogplex.vercel.app/_next/image?url=https%3A%2F%2Fi.ibb.co%2FhVJKk6J%2F0a27e9e40f1eb6e7c0768e4d0d24e08e.webp&w=1920&q=100",
+    title: "Building a Personal Brand on Social Media",
+    category: "devops",
+    content:
+      "Learn strategies to build a strong personal brand across social media platforms.",
+    like: 27,
+  },
+  {
+    _id: 6,
+    email: "pqr@gmail.com",
+    image:
+      "https://blogplex.vercel.app/_next/image?url=https%3A%2F%2Fi.ibb.co%2FF5pCYz4%2FPlaceholder-09.webp&w=1920&q=100",
+    title: "Beginner's Guide to Python Programming",
+    category: "devops",
+    content:
+      "Get started with Python with this comprehensive beginner's guide.",
+    like: 35,
   },
 ];
 const PopularBlog = () => {
@@ -20,10 +73,19 @@ const PopularBlog = () => {
       <h2 className="capitalize text-white text-xl md:text-2xl lg:text-2xl font-bold text-center mb-6">
         Popular Blogs
       </h2>
-
-      <div className="grid grid-cols-1 md:grid-cols-4">
-        <BlogCard />
+<div  className="flex flex-col items-center ">
+      <div className="grid grid-cols-1 mb-5 md:grid-cols-2 lg:grid-cols-4 gap-7">
+        {datas.map((data) => (
+          <BlogCard key={data._id} data={data} />
+        ))}
       </div>
+      <button className="flex items-center justify-center gap-1 rounded font-medium bg-[#F50400] px-5 py-2 text-white transition-all duration-300 ease-in-out group">
+        View All
+        <IoMdArrowDropright
+          size={25}
+          className="transform transition-transform duration-300 ease-in-out group-hover:translate-x-2"
+        />
+      </button></div>
     </section>
   );
 };

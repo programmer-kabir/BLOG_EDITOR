@@ -21,7 +21,7 @@ const InfoCard = () => {
   return (
     <section className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10'>
         {
-            cardInfo.map(data =><div key={data.title} className="bg-[#FCA5A5] flex items-center gap-6 justify-center rounded-lg border shadow-sm p-10 hover:bg-[#FCA5A5] group">
+            cardInfo.map(data =><div key={data.title} className="bg-[#FCA5A5] flex items-center gap-6 justify-center rounded-lg border shadow-md p-10 hover:bg-[#FCA5A5] group">
 
                 <div className="overflow-hidden">
                   <img

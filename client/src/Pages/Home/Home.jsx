@@ -8,13 +8,15 @@ import CompanyInfo from "../../Components/Home/CompanyInfo/CompanyInfo";
 
 const Home = () => {
   return (
-    <div className=" w-[90%] md:w-[95%] mx-auto space-y-10">
+    <div className="space-y-10">
       <Banner />
-      <InfoCard />
+      <div>
+        {/* <InfoCard />
       <BlogCategory />
       <PopularBlog />
       <Newsletter />
-      <CompanyInfo />
+      <CompanyInfo /> */}
+      </div>
     </div>
   );
 };

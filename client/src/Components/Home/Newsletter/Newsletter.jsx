@@ -2,7 +2,7 @@ import React from "react";
 import { BsFillSendArrowDownFill } from "react-icons/bs";
 const Newsletter = () => {
   return (
-    <section className="flex items-center justify-between gap-10">
+    <section className="md:flex items-center justify-between gap-10 pt-10">
       <div className="md:w-1/2">
         <h1 className="text-3xl font-bold  sm:text-4xl">
           Subscribe to our newsletter
@@ -33,7 +33,7 @@ const Newsletter = () => {
         </form>
       </div>
       {/* Right Side */}
-      <div className="flex md:w-1/2">
+      <div className="md:flex md:w-1/2 pt-10 md:pt-0">
         {/*
          */}
         <div className="flex items-start gap-3">
@@ -43,7 +43,7 @@ const Newsletter = () => {
             <p className="mt-2 text-base text-gray-500">Discover new articles and discussions every week on BlogPlex. Engage with a vibrant community.</p>
           </div>
         </div>
-        <div className="flex items-start gap-3">
+        <div className="flex items-start gap-3 pt-5 md:pt-0">
           <img src="https://i.ibb.co.com/LNvkcSC/spam.png" alt="" />
           <div>
             <h2 className="text-lg font-medium text-gray-900">No spam</h2>

@@ -26,7 +26,7 @@ const BlogCategory = () => {
       <h2 className="capitalize text-white text-xl md:text-2xl lg:text-2xl font-bold text-center mb-6">
         Blog Category
       </h2>
-      <div className=" relative w-[92%] mx-auto ">
+      <div className=" relative md:w-[92%] w-[80%] mx-auto ">
         <Swiper
           spaceBetween={10}
           slidesPerView={1}
@@ -63,7 +63,7 @@ const BlogCategory = () => {
 
         {/* Custom Navigation Buttons */}
         <button
-          className="absolute top-1/2 -left-14 transform p-2 -translate-y-1/2 text-white z-50 rounded-full bg-[#F50400] group hover:bg-[#60A5FA] transition-colors duration-300"
+          className="absolute top-1/2 -left-8 md:-left-14 transform p-2 -translate-y-1/2 text-white z-50 rounded-full bg-[#F50400] group hover:bg-[#60A5FA] transition-colors duration-300"
           onClick={() => swiperRef.current?.slidePrev()} // Navigate to previous slide
         >
           <FaArrowRight
@@ -73,7 +73,7 @@ const BlogCategory = () => {
         </button>
 
         <button
-          className="absolute top-1/2 -right-14 transform p-2 -translate-y-1/2 text-white z-50 rounded-full bg-[#F50400] group hover:bg-[#60A5FA] transition-colors duration-300"
+          className="absolute top-1/2 -right-8 md:-right-14 transform p-2 -translate-y-1/2 text-white z-50 rounded-full bg-[#F50400] group hover:bg-[#60A5FA] transition-colors duration-300"
           onClick={() => swiperRef.current?.slideNext()} // Navigate to next slide
         >
           <FaArrowRight

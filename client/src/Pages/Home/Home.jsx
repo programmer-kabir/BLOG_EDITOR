@@ -10,12 +10,12 @@ const Home = () => {
   return (
     <div className="space-y-10">
       <Banner />
-      <div>
-        {/* <InfoCard />
+      <div className="w-[90%] md:w-[95%] mx-auto">
+        <InfoCard />
       <BlogCategory />
       <PopularBlog />
       <Newsletter />
-      <CompanyInfo /> */}
+      <CompanyInfo />
       </div>
     </div>
   );

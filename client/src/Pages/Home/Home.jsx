@@ -4,6 +4,7 @@ import InfoCard from "../../Components/Home/InfoCard/InfoCard";
 import BlogCategory from "../../Components/Home/BlogCategory/BlogCategory";
 import PopularBlog from "../../Components/Home/PopularBlog/PopularBlog";
 import Newsletter from "../../Components/Home/Newsletter/Newsletter";
+import CompanyInfo from "../../Components/Home/CompanyInfo/CompanyInfo";
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       <BlogCategory />
       <PopularBlog />
       <Newsletter />
+      <CompanyInfo />
     </div>
   );
 };

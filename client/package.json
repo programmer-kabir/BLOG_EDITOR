@@ -10,8 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@syncfusion/ej2-react-richtexteditor": "^27.1.58",
     "axios": "^1.7.7",
     "firebase": "^11.0.1",
+    "jodit": "^4.2.41",
+    "jodit-react": "^4.1.2",
     "localforage": "^1.10.0",
     "match-sorter": "^8.0.0",
     "react": "^18.3.1",

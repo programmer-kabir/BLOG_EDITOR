@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import logo from "../../../assets/Logo/logo.png";
+import logo from "../../../assets/Logo/logo1.png";
 import { LuLogIn } from "react-icons/lu";
 import {  FaBarsStaggered, FaPlus } from "react-icons/fa6";
 import { MdLogout } from "react-icons/md";
@@ -12,24 +12,24 @@ const Navbar = () => {
   };
 
   return (
-    <section className="fixed top-0 left-0 right-0 z-50 transition-shadow duration-300 shadow-md border-b bg-background/90 backdrop-blur-lg">
+    <section className="fixed top-0 left-0 right-0 z-50 bg-white transition-shadow duration-300 shadow border-b bg-background/90 backdrop-blur-lg">
       <div className="w-[90%] md:w-[95%] mx-auto flex items-center justify-between h-16">
         {/* Logo */}
         <div  onClick={toggleSidebar} className="bg-[#F50400] md:hidden px-3 py-2 rounded-md">
           <FaBarsStaggered color="#fff " className="bg-[#F50400]" size={22} />
         </div>
-        <div className="md:flex gap-2 hidden  items-center justify-center">
+        <div className="md:flex gap-1 hidden  items-center justify-center">
           <img className="h-[35px]" src={logo} alt="Logo" />
-          <h2 className="text-white text-[17px] font-semibold">Blog Editor</h2>
+          <h2 className="text-black text-[17px] font-semibold">Blog Editor</h2>
         </div>
         {/* Middle Section */}
-        <div className="md:flex text-white gap-2 hidden ">
+        <div className="md:flex text-black gap-2 hidden ">
           <NavLink
             to="/"
             className={({ isActive }) =>
               isActive
                 ? "px-5 text-[#F50400] font-medium py-2 rounded-sm bg-[#262626]"
-                : "px-5 py-2 font-medium text-white"
+                : "px-5 py-2 font-medium text-black"
             }
           >
             Home
@@ -39,7 +39,7 @@ const Navbar = () => {
             className={({ isActive }) =>
               isActive
                 ? "px-5 py-2 font-medium text-[#F50400] rounded-sm bg-[#262626]"
-                : "px-5 py-2 font-medium text-white"
+                : "px-5 py-2 font-medium text-black"
             }
           >
             Blogs
@@ -49,7 +49,7 @@ const Navbar = () => {
             className={({ isActive }) =>
               isActive
                 ? "px-5 py-2 text-[#F50400] font-medium  rounded-sm bg-[#262626]"
-                : "px-5 py-2 font-medium text-white"
+                : "px-5 py-2 font-medium text-black"
             }
           >
             About Us

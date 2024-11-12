@@ -5,6 +5,8 @@ import Add from "../Components/Home/Add";
 import Blogs from "../Pages/Blogs/Blogs";
 import DetailsBlog from "../Components/Blog/DetailsBlog";
 import Blog from "../Components/Blog/Blog";
+import Signin from "../Pages/Authentication/signin/Signin";
+import Signup from "../Pages/Authentication/Signup/Signup";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +21,14 @@ const router = createBrowserRouter([
       {
         path: "/AddBlog",
         element: <Add />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />
+      },
+      {
+        path: "/signin",
+        element: <Signin />,
       },
     ],
   },

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../../../assets/Logo/logo1.png";
 import { LuLogIn } from "react-icons/lu";
 import { FaBarsStaggered, FaPlus } from "react-icons/fa6";
@@ -58,11 +58,11 @@ const Navbar = () => {
           </NavLink>
         </div>
         {/* Login Logout */}
-        <div className="text-white">
+        <Link to='/signin' className="text-white">
           <button className="flex rounded items-center justify-center gap-1 font-medium bg-[#F50400] px-5 py-2">
             Login <LuLogIn className="bg-[#F50400] font-medium" size={21} />
           </button>
-        </div>
+        </Link>
       </div>
       {/*  */}
       <div className="flex justify-end">

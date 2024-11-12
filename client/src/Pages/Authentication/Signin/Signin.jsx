@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaArrowRight, FaEye, FaEyeSlash, FaPlus } from "react-icons/fa";
 import { IoMdArrowDropright, IoMdCopy } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import toast from 'react-hot-toast'
 import useAuth from "../../../Components/Hooks/useAuth";
@@ -9,7 +9,9 @@ const Signin = () => {
   const {SingInUser} = useAuth()
   const [showPassword, setShowPassword] = useState(false);
   const [isCredentialsModal, setIsCredentialsModal] = useState(false);
-
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
   // Toggle password visibility
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
@@ -30,7 +32,8 @@ const Signin = () => {
     SingInUser(data.email, data.password)
     .then(result =>{
       const user = result.user
-      console.log(user);
+      toast.success('login successful')
+      navigate(from , {replace:true})
     })
   };
  

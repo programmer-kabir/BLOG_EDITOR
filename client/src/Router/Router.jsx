@@ -15,6 +15,10 @@ import AllBlogs from "../Pages/Dashboard/Admin/AllBlogs";
 import AllUsers from "../Pages/Dashboard/Admin/AllUsers";
 import Moderator from "../Pages/Dashboard/Moderator/Moderator";
 import Blogger from "../Pages/Dashboard/Blogger/Blogger";
+import PrivateRoute from "./PrivetRoute";
+import AdminRoute from "./AdminRoute";
+import ModeratorRoute from "./ModeratorRoute";
+import BloggerRoute from "./BloggerRoute";
 
 const router = createBrowserRouter([
   {
@@ -32,7 +36,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/signup",
-        element: <Signup />
+        element: <Signup />,
       },
       {
         path: "/signin",
@@ -41,60 +45,75 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path:"/blogs",
-    element:<Blogs />,
-    children:[
+    path: "/blogs",
+    element: <Blogs />,
+    children: [
       {
-        path:"category/:name",
-        element:<Blog />
+        path: "category/:name",
+        element: <Blog />,
       },
       {
-        path:"details/:id",
-        element:<DetailsBlog />,
-        
-      }
-    ]
+        path: "details/:id",
+        element: <DetailsBlog />,
+      },
+    ],
   },
   {
-    path:"/dashboard",
-    element:<Dashboard />,
-    children:[
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <AdminRoute>
+          <Dashboard />
+        </AdminRoute>
+      </PrivateRoute>
+    ),
+    children: [
       {
-        path:"admin",
-        element:<AdminBoard />
+        path: "admin",
+        element: <AdminBoard />,
       },
       {
-        path:"admin/users",
-        element:<AllUsers />
+        path: "admin/users",
+        element: <AllUsers />,
       },
       {
-        path:"admin/blogs",
-        element:<AllBlogs />
-      }
-    ]
+        path: "admin/blogs",
+        element: <AllBlogs />,
+      },
+    ],
   },
   {
-    path:"/dashboard",
-    element:<Dashboard />,
-    children:[
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <ModeratorRoute>
+          <Dashboard />
+        </ModeratorRoute>
+      </PrivateRoute>
+    ),
+    children: [
       {
-        path:"Moderator",
-        element:<Moderator />
+        path: "Moderator",
+        element: <Moderator />,
       },
-     
-    ]
+    ],
   },
   {
-    path:"/dashboard",
-    element:<Dashboard />,
-    children:[
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <BloggerRoute>
+          <Dashboard />
+        </BloggerRoute>
+      </PrivateRoute>
+    ),
+    children: [
       {
-        path:"blogger",
-        element:<Blogger />
+        path: "blogger",
+        element: <Blogger />,
       },
-     
-    ]
-  }
+    ],
+  },
 ]);
 
 export default router;

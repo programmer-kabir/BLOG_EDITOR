@@ -7,6 +7,12 @@ import DetailsBlog from "../Components/Blog/DetailsBlog";
 import Blog from "../Components/Blog/Blog";
 import Signin from "../Pages/Authentication/signin/Signin";
 import Signup from "../Pages/Authentication/Signup/Signup";
+import Dashboard from "../Pages/Dashboard/Dashboard";
+import AdminBoard from "../Pages/Dashboard/Admin/AdminBoard";
+import ShowBloggers from "../Pages/Dashboard/Admin/ShowBloggers";
+import ShowModerator from "../Pages/Dashboard/Admin/ShowModerator";
+import AllBlogs from "../Pages/Dashboard/Admin/AllBlogs";
+import AllUsers from "../Pages/Dashboard/Admin/AllUsers";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +50,24 @@ const router = createBrowserRouter([
         path:"details/:id",
         element:<DetailsBlog />,
         
+      }
+    ]
+  },
+  {
+    path:"/dashboard",
+    element:<Dashboard />,
+    children:[
+      {
+        path:"admin",
+        element:<AdminBoard />
+      },
+      {
+        path:"admin/users",
+        element:<AllUsers />
+      },
+      {
+        path:"admin/blogs",
+        element:<AllBlogs />
       }
     ]
   }

@@ -23,9 +23,10 @@ const Signup = () => {
   const url =
     "https://api.imgbb.com/1/upload?key=f1e08dc7c44c396aa409d50dfcc797da";
   const onSubmit = (data) => {
-    console.log(data);
+    const today = new Date().toLocaleDateString('en-CA'); // Format: YYYY-MM-DD
     let finalData = {
       ...data,
+      date:today,
       role: activeTab,
     };
     delete finalData.image;

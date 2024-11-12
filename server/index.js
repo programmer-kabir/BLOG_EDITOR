@@ -26,7 +26,27 @@ async function run() {
     await client.connect();
 
     const blogsCollection = client.db("BlogEditor").collection("blogs");
+    const usersCollection = client.db("BlogEditor").collection("users");
 
+    // Users
+    app.post("/users", async (req, res) => {
+      const user = req.body;
+      const query = { email: user.email };
+      const existingUser = await usersCollection.findOne(query);
+      if (existingUser) {
+        return res.send({ message: "user already exist" });
+      }
+      const result = await usersCollection.insertOne(user);
+      res.send(result);
+    })
+    // app.get("/users",async(res, res) =>{
+    //   const result = await usersCollection.find().toArray()
+    //   res.send(result)
+    // })
+    app.get('/users', async(req, res) =>{
+            const result = await usersCollection.find().toArray()
+res.send(result)
+    })
     // Blogs
     app.get("/blogs", async (req, res) => {
       const result = await blogsCollection.find().toArray();

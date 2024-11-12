@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaArrowRight, FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../../Components/Hooks/useAuth";
-
+import toast from "react-hot-toast";
+import axios from "axios";
 const Signup = () => {
-  const {RegisterUser} = useAuth()
+  const { RegisterUser, updateUserProfile } = useAuth();
   const [activeTab, setActiveTab] = useState("user");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -13,19 +14,66 @@ const Signup = () => {
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
+  const navigate = useNavigate();
   const {
     handleSubmit,
     register,
     formState: { errors: formError },
   } = useForm();
-
+  const url =
+    "https://api.imgbb.com/1/upload?key=f1e08dc7c44c396aa409d50dfcc797da";
   const onSubmit = (data) => {
     console.log(data);
-    RegisterUser(data.email, data.password)
-    .then(result =>{
-      const user = result.user
-      console.log(user);
+    let finalData = {
+      ...data,
+      role: activeTab,
+    };
+    delete finalData.image;
+
+    // console.log(formData);
+
+    const image = data.image[0];
+    const formData = new FormData();
+    formData.append("image", image);
+    fetch(url, {
+      method: "POST",
+      body: formData,
     })
+      .then((res) => res.json())
+      .then((image) => {
+        const photo = image?.data?.display_url;
+          // Add the photo URL to finalData
+      finalData = {
+        ...finalData,
+        photo, // Add the photo URL instead of the image file
+      };
+        RegisterUser(data.email, data.password)
+          .then((result) => {
+            const user = result.user;
+            updateUserProfile(data.name, photo)
+            .then((response) => {
+              
+              axios
+                .post("http://localhost:3000/users",  finalData )
+                .then((data) => {
+                  if (data.data.insertedId) {
+                    toast.success("Register Successfully");
+                    navigate("/");
+                    console.log(data.data);
+                  }
+                })
+                .catch(error =>{
+                  console.log(error);
+                })
+            });
+          })
+          .catch((error) => {
+            toast.error("Email Already Exit");
+          });
+      })
+      .catch((error) => {
+        toast.error("unfortunately Some Issue");
+      });
   };
   return (
     <section className="mt-[80px] w-full md:max-w-xl mx-auto px-2">
@@ -173,7 +221,6 @@ const Signup = () => {
                 type="file"
                 id="image"
                 {...register("image", { required: true })}
-  
                 className="px-2 py-2 text-sm outline-none border border-gray-300 rounded w-full mt-2"
               />
               {formError.image && (

@@ -5,8 +5,14 @@ import { LuLogIn } from "react-icons/lu";
 import { FaBarsStaggered, FaPlus } from "react-icons/fa6";
 import { MdLogout } from "react-icons/md";
 import useAuth from "../../../Components/Hooks/useAuth";
+import useAdmin from "../../../Components/Hooks/useAdmin";
+import useModerator from "../../../Components/Hooks/useModarator";
+import useBlogger from "../../../Components/Hooks/useBlogger";
 const Navbar = () => {
   const { logOut, user } = useAuth();
+  const [isAdmin] = useAdmin();
+  const [isModerator] = useModerator();
+  const [isBlogger] = useBlogger();
 
   const [isNavOpen, setIsNavOpen] = useState(false);
   const toggleSidebar = () => {
@@ -25,18 +31,18 @@ const Navbar = () => {
         >
           <FaBarsStaggered color="#fff " className="bg-[#F50400]" size={22} />
         </div>
-        <div className="md:flex gap-1 hidden  items-center justify-center">
+        <Link to={'/'} className="md:flex gap-1 hidden  items-center justify-center">
           <img className="h-[35px]" src={logo} alt="Logo" />
           <h2 className="text-black text-[17px] font-semibold">Blog Editor</h2>
-        </div>
+        </Link>
         {/* Middle Section */}
         <div className="md:flex text-black gap-2 hidden ">
           <NavLink
             to="/"
             className={({ isActive }) =>
               isActive
-                ? "px-5 text-[#F50400] font-medium py-2 rounded-sm bg-gray-100"
-                : "px-5 py-2 font-medium text-black"
+                ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
+                : "px-5 py-2 text-[#737373] hover:text-[#F50400]"
             }
           >
             Home
@@ -45,8 +51,8 @@ const Navbar = () => {
             to="/blogs"
             className={({ isActive }) =>
               isActive
-                ? "px-5 py-2 font-medium text-[#F50400] rounded-sm bg-gray-100"
-                : "px-5 py-2 font-medium text-black"
+                ? "px-5 py-2  text-[#F50400] rounded-sm bg-[#f5f5f5]"
+                : "px-5 py-2 text-[#737373] hover:text-[#F50400]"
             }
           >
             Blogs
@@ -55,12 +61,49 @@ const Navbar = () => {
             to="/about"
             className={({ isActive }) =>
               isActive
-                ? "px-5 py-2 text-[#F50400] font-medium  rounded-sm bg-gray-100"
-                : "px-5 py-2 font-medium text-black"
+                ? "px-5 py-2 text-[#F50400]   rounded-sm bg-[#f5f5f5]"
+                : "px-5 py-2 text-[#737373] hover:text-[#F50400]"
             }
           >
             About Us
           </NavLink>
+          {
+            isAdmin &&  <NavLink
+            to="/dashboard/admin"
+            className={({ isActive }) =>
+              isActive
+                ? "px-5 py-2 text-[#F50400]   rounded-sm bg-[#f5f5f5]"
+                : "px-5 py-2 text-[#737373] hover:text-[#F50400]"
+            }
+          >
+            Dashboard
+          </NavLink>
+          }
+          {
+            isBlogger &&  <NavLink
+            to="/dashboard/blogger"
+            className={({ isActive }) =>
+              isActive
+                ? "px-5 py-2 text-[#F50400]   rounded-sm bg-[#f5f5f5]"
+                : "px-5 py-2 text-[#737373] hover:text-[#F50400]"
+            }
+          >
+            Dashboard
+          </NavLink>
+          }
+          {
+            isModerator &&  <NavLink
+            to="/dashboard/Moderator"
+            className={({ isActive }) =>
+              isActive
+                ? "px-5 py-2 text-[#F50400]   rounded-sm bg-[#f5f5f5]"
+                : "px-5 py-2 text-[#737373] hover:text-[#F50400]"
+            }
+          >
+            Dashboard
+          </NavLink>
+          }
+         
         </div>
         {/* Login Logout */}
         <div>

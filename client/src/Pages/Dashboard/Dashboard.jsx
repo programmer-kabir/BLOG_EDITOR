@@ -5,8 +5,16 @@ import { LuLogIn } from "react-icons/lu";
 import { FaBarsStaggered, FaPlus } from "react-icons/fa6";
 import { MdLogout } from "react-icons/md";
 import logo from "../../assets/Logo/logo1.png";
+import useAdmin from "../../Components/Hooks/useAdmin";
+import useModerator from "../../Components/Hooks/useModarator";
+import useBlogger from "../../Components/Hooks/useBlogger";
+import Moderator from "./Moderator/Moderator";
 const Dashboard = () => {
-  const { logOut, user } = useAuth();
+  const [isAdmin] = useAdmin();
+  const [isModerator] = useModerator();
+  const [isBlogger] = useBlogger();
+console.log(isModerator);
+  const { logOut, user,loading } = useAuth();
 
   const [isNavOpen, setIsNavOpen] = useState(false);
   const toggleSidebar = () => {
@@ -15,6 +23,9 @@ const Dashboard = () => {
   const handleLogOut = () => {
     logOut();
   };
+  if(loading){
+    <p>loa</p>
+  }
   return (
     <div>
       <section className="fixed top-0 left-0 right-0 z-50 bg-white transition-shadow duration-300 shadow border-b bg-background/90 backdrop-blur-lg">
@@ -26,79 +37,94 @@ const Dashboard = () => {
           >
             <FaBarsStaggered color="#fff " className="bg-[#F50400]" size={22} />
           </div>
-          <div className="md:flex gap-1 hidden  items-center justify-center">
+          <Link to='/' className="md:flex gap-1 hidden  items-center justify-center">
             <img className="h-[35px]" src={logo} alt="Logo" />
             <h2 className="text-black text-[17px] font-semibold">
               Blog Editor
             </h2>
-          </div>
+          </Link>
           {/* Middle Section */}
-          {/* <div className="md:flex  gap-2 hidden text-sm">
-            <NavLink
-              to="admin"
-              className={({ isActive }) =>
-                isActive
-                  ? "px-5 text-[#F50400] font-medium py-2 rounded-sm bg-[#f5f5f5]"
-                  : "px-5 py-2 font-medium text-[#737373] hover:text-[#F50400]"
-              }
-            >
-              Dashboard
-            </NavLink>
-            <NavLink
-              to="admin/bloggers"
-              className={({ isActive }) =>
-                isActive
-                  ? "px-5 py-2 font-medium text-[#F50400] rounded-sm bg-[#f5f5f5]"
-                  : "px-5 py-2 font-medium text-[#737373] hover:text-[#F50400]"
-              }
-            >
-              Bloggers
-            </NavLink>
-            <NavLink
-              to="admin/Moderator"
-              className={({ isActive }) =>
-                isActive
-                  ? "px-5 py-2 text-[#F50400] font-medium  rounded-sm bg-[#f5f5f5]"
-                  : "px-5 py-2 font-medium text-[#737373] hover:text-[#F50400]"
-              }
-            >
-              Moderator
-            </NavLink>
-          </div> */}
-          <div className="md:flex gap-2 hidden text-sm">
-  <NavLink
-    to="admin"
-    end
-    className={({ isActive }) =>
-      isActive
-        ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
-        : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
-    }
-  >
-    Dashboard
-  </NavLink>
-  <NavLink
-    to="admin/users"
-    className={({ isActive }) =>
-      isActive
-        ? "px-5 py-2  text-[#F50400] rounded-sm bg-[#f5f5f5]"
-        : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
-    }
-  >
-    Users
-  </NavLink>
+         {
+          isAdmin && <div className="md:flex gap-2 hidden text-sm">
+          <NavLink
+            to="admin"
+            end
+            className={({ isActive }) =>
+              isActive
+                ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
+                : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+            }
+          >
+            Dashboard
+          </NavLink>
+          <NavLink
+            to="admin/users"
+            className={({ isActive }) =>
+              isActive
+                ? "px-5 py-2  text-[#F50400] rounded-sm bg-[#f5f5f5]"
+                : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+            }
+          >
+            Users
+          </NavLink>
 
-  <NavLink
-    to="admin/blogs"
-    className={({ isActive }) =>
-      isActive
-        ? "px-5 py-2 text-[#F50400]  rounded-sm bg-[#f5f5f5]"
-        : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
-    }
-  >
-    Blogs
-  </NavLink>
-</div>
+          <NavLink
+            to="admin/blogs"
+            className={({ isActive }) =>
+              isActive
+                ? "px-5 py-2 text-[#F50400]  rounded-sm bg-[#f5f5f5]"
+                : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+            }
+          >
+            Blogs
+          </NavLink>
+          <NavLink
+            to="admin"
+            end
+            className={({ isActive }) =>
+              isActive
+                ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
+                : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+            }
+          >
+            Dashboard
+          </NavLink>
+        </div>
+         }
+         {
+          isModerator && <div className="md:flex gap-2 hidden text-sm">
+          <NavLink
+            to="Moderator"
+            end
+            className={({ isActive }) =>
+              isActive
+                ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
+                : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+            }
+          >
+            Dashboard
+          </NavLink>
+          
+        </div>
+         }
+         {
+          isBlogger && <div className="md:flex gap-2 hidden text-sm">
+          <NavLink
+            to="blogger"
+            end
+            className={({ isActive }) =>
+              isActive
+                ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
+                : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+            }
+          >
+            Dashboard
+          </NavLink>
+        
+        </div>
+         }
+         
+          
 
           {/* Login Logout */}
           <div>

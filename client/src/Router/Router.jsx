@@ -13,6 +13,8 @@ import ShowBloggers from "../Pages/Dashboard/Admin/ShowBloggers";
 import ShowModerator from "../Pages/Dashboard/Admin/ShowModerator";
 import AllBlogs from "../Pages/Dashboard/Admin/AllBlogs";
 import AllUsers from "../Pages/Dashboard/Admin/AllUsers";
+import Moderator from "../Pages/Dashboard/Moderator/Moderator";
+import Blogger from "../Pages/Dashboard/Blogger/Blogger";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +71,28 @@ const router = createBrowserRouter([
         path:"admin/blogs",
         element:<AllBlogs />
       }
+    ]
+  },
+  {
+    path:"/dashboard",
+    element:<Dashboard />,
+    children:[
+      {
+        path:"Moderator",
+        element:<Moderator />
+      },
+     
+    ]
+  },
+  {
+    path:"/dashboard",
+    element:<Dashboard />,
+    children:[
+      {
+        path:"blogger",
+        element:<Blogger />
+      },
+     
     ]
   }
 ]);

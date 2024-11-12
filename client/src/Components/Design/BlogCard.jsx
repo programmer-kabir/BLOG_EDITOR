@@ -40,8 +40,8 @@ const BlogCard = ({ data }) => {
               <RiWhatsappFill color="#25D366" size={25} />
               <FaFacebook color="#316FF6" size={23} />
               <FaLinkedin color="#0077B5" size={23} />
-              <FaCopy size={21} color="#383838"/>
-              <FaBookmark size={21} color="#383838" />
+              <FaCopy size={21} color="#000"/>
+              <FaBookmark size={21} color="#000" />
             </div>
             <button className="flex items-center gap-1">
               <BiSolidLike size={22}/> {data.like}

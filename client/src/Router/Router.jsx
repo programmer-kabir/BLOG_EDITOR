@@ -29,6 +29,10 @@ const router = createBrowserRouter([
       {
         path:"category/:name",
         element:<Blog />
+      },
+      {
+        path:"details/:id",
+        element:<DetailsBlog />
       }
     ]
   }

@@ -2,10 +2,11 @@ import React from "react";
 import { RiWhatsappFill } from "react-icons/ri";
 import { FaBookmark, FaCopy, FaFacebook, FaLinkedin } from "react-icons/fa";
 import { BiSolidLike } from "react-icons/bi";
+import { Link } from "react-router-dom";
 const BlogCard = ({ data }) => {
-  console.log(data._id);
+  console.log(data);
   return (
-    <section>
+    <Link to={`../details/${data._id}`}>
       
       <div className="block rounded-md border border-gray-300 shadow-sm hover:shadow-md shadow-indigo-100">
         <img
@@ -49,7 +50,7 @@ const BlogCard = ({ data }) => {
           </div>
         </div>
       </div>
-    </section>
+    </Link>
   );
 };
 

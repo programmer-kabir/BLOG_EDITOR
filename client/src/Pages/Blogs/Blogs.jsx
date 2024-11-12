@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../assets/Logo/logo1.png";
 import { IoIosCode, IoMdFitness } from "react-icons/io";
 import { GiProcessor } from "react-icons/gi";
@@ -9,6 +9,8 @@ import { FaRegLifeRing } from "react-icons/fa6";
 import { PiBowlFoodLight, PiDressThin } from "react-icons/pi";
 import { LuBookMarked, LuLogIn } from "react-icons/lu";
 import { Link, Outlet } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBlogs } from "../Redux/Blogs/blogSlice";
 
 const CategoryData = [
   { title: "programming", icon: <IoIosCode />, link: "programming" },
@@ -23,8 +25,27 @@ const CategoryData = [
 ];
 
 const Blogs = () => {
+  const dispatch = useDispatch();
+  const { isBlogLoading, Blogs, isBlogError } = useSelector(
+    (state) => state.Blogs
+  );
+  useEffect(() => {
+    dispatch(fetchBlogs());
+  }, [dispatch]);
   const [activeIndex, setActiveIndex] = useState(null);
+  const [categoryCounts, setCategoryCounts] = useState({});
 
+  useEffect(() => {
+    const counts = {};
+    Blogs.forEach((blog) => {
+      if (counts[blog.category]) {
+        counts[blog.category] += 1;
+      } else {
+        counts[blog.category] = 1;
+      }
+    });
+    setCategoryCounts(counts); // Store the counts in state
+  }, [Blogs]);
   return (
     <section className="flex items-start">
       {/* Left Side (Fixed Sidebar) */}
@@ -56,7 +77,7 @@ const Blogs = () => {
 
               {/* Notification Badge with spacing */}
               <p className="ml-auto bg-[#F50400] rounded-full w-3 h-3 flex items-center justify-center p-3 text-white">
-                5
+                {categoryCounts[data.link] || 0} {/* Display the category count */}
               </p>
             </Link>
             // </Link>

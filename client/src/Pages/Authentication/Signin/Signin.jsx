@@ -4,7 +4,9 @@ import { IoMdArrowDropright, IoMdCopy } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import toast from 'react-hot-toast'
+import useAuth from "../../../Components/Hooks/useAuth";
 const Signin = () => {
+  const {SingInUser} = useAuth()
   const [showPassword, setShowPassword] = useState(false);
   const [isCredentialsModal, setIsCredentialsModal] = useState(false);
 
@@ -25,7 +27,11 @@ const Signin = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    SingInUser(data.email, data.password)
+    .then(result =>{
+      const user = result.user
+      console.log(user);
+    })
   };
  
   const credentials = [

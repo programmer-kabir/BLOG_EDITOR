@@ -4,12 +4,17 @@ import logo from "../../../assets/Logo/logo1.png";
 import { LuLogIn } from "react-icons/lu";
 import { FaBarsStaggered, FaPlus } from "react-icons/fa6";
 import { MdLogout } from "react-icons/md";
+import useAuth from "../../../Components/Hooks/useAuth";
 const Navbar = () => {
+  const { logOut, user } = useAuth();
+
   const [isNavOpen, setIsNavOpen] = useState(false);
   const toggleSidebar = () => {
     setIsNavOpen(!isNavOpen);
   };
-
+  const handleLogOut = () => {
+    logOut();
+  };
   return (
     <section className="fixed top-0 left-0 right-0 z-50 bg-white transition-shadow duration-300 shadow border-b bg-background/90 backdrop-blur-lg">
       <div className="w-[90%] md:w-[95%] mx-auto flex items-center justify-between h-16">
@@ -58,11 +63,22 @@ const Navbar = () => {
           </NavLink>
         </div>
         {/* Login Logout */}
-        <Link to='/signin' className="text-white">
-          <button className="flex rounded items-center justify-center gap-1 font-medium bg-[#F50400] px-5 py-2">
-            Login <LuLogIn className="bg-[#F50400] font-medium" size={21} />
-          </button>
-        </Link>
+        <div>
+          {user ? (
+            <button onClick={handleLogOut} to="/signin" className="text-white">
+              <button className="flex items-center justify-center gap-1 rounded font-medium bg-[#F50400] px-5 py-2 text-white transition-all duration-300 ease-in-out group">
+                Logout{" "}
+                <MdLogout   className="transform transition-transform duration-300 ease-in-out group-hover:translate-x-2" size={21} />
+              </button>
+            </button>
+          ) : (
+            <Link to="/signin" className="text-white">
+              <button className="flex items-center justify-center gap-1 rounded font-medium bg-[#F50400] px-5 py-2 text-white transition-all duration-300 ease-in-out group">
+                Login <LuLogIn   className="transform transition-transform duration-300 ease-in-out group-hover:translate-x-2" size={21} />
+              </button>
+            </Link>
+          )}
+        </div>
       </div>
       {/*  */}
       <div className="flex justify-end">

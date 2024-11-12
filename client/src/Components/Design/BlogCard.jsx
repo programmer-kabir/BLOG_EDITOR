@@ -4,7 +4,6 @@ import { FaBookmark, FaCopy, FaFacebook, FaLinkedin } from "react-icons/fa";
 import { BiSolidLike } from "react-icons/bi";
 import { Link } from "react-router-dom";
 const BlogCard = ({ data }) => {
-  console.log(data);
   return (
     <Link to={`../details/${data._id}`}>
       

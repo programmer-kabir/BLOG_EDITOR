@@ -62,6 +62,7 @@ const Blogs = () => {
           //  <Link to={`/category/${data.link}`} key={index}>
             <Link
             to={`category/${data.link}`}
+            key={index}
               onClick={() => setActiveIndex(index)}
               className={`text-[17px] flex px-2 py-2 items-center justify-start gap-2 transition-all ${
                 activeIndex === index

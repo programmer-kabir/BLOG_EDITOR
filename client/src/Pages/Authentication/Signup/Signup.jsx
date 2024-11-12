@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaArrowRight, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useAuth from "../../../Components/Hooks/useAuth";
 
 const Signup = () => {
+  const {RegisterUser} = useAuth()
   const [activeTab, setActiveTab] = useState("user");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -19,6 +21,11 @@ const Signup = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    RegisterUser(data.email, data.password)
+    .then(result =>{
+      const user = result.user
+      console.log(user);
+    })
   };
   return (
     <section className="mt-[80px] w-full md:max-w-xl mx-auto px-2">
@@ -169,9 +176,9 @@ const Signup = () => {
   
                 className="px-2 py-2 text-sm outline-none border border-gray-300 rounded w-full mt-2"
               />
-              {formError.email && (
+              {formError.image && (
                 <span className="text-[#f50400] text-sm">
-                  Email is required
+                  image is required
                 </span>
               )}
             </div>
@@ -184,7 +191,7 @@ const Signup = () => {
             Sign in
           </button>
         </form>
-        {activeTab === "user" && (
+        {/* {activeTab === "user" && (
           <div>
             <h2 className="text-xl font-semibold mb-4">User Registration</h2>
             <p>Fill in your details to register as a user.</p>
@@ -194,7 +201,7 @@ const Signup = () => {
               className="w-full mt-3 p-2 border rounded"
             />
           </div>
-        )}
+        )} */}
       </div>
     </section>
   );

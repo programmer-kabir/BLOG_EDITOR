@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import useAuth from "../../Components/Hooks/useAuth";
-import { LuLogIn } from "react-icons/lu";
+import { IoMailUnreadOutline } from "react-icons/io5";
 import { FaBarsStaggered, FaPlus } from "react-icons/fa6";
 import { MdLogout } from "react-icons/md";
 import logo from "../../assets/Logo/logo1.png";
 import useAdmin from "../../Components/Hooks/useAdmin";
 import useModerator from "../../Components/Hooks/useModarator";
 import useBlogger from "../../Components/Hooks/useBlogger";
-import Moderator from "./Moderator/Moderator";
+import { SlSettings } from "react-icons/sl";
+import Loader from "../../Components/Loader/Loader";
 const Dashboard = () => {
   const [isAdmin] = useAdmin();
   const [isModerator] = useModerator();
   const [isBlogger] = useBlogger();
-console.log(isModerator);
-  const { logOut, user,loading } = useAuth();
-
+  const { logOut, user, loading } = useAuth();
+  console.log(user);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const toggleSidebar = () => {
     setIsNavOpen(!isNavOpen);
@@ -23,9 +23,13 @@ console.log(isModerator);
   const handleLogOut = () => {
     logOut();
   };
-  if(loading){
-    <p>loa</p>
+  if (loading) {
+    <Loader />;
   }
+  const [isImageDropdownOpen, setIsImageDropdownOpen] = useState(false);
+  const handleImageDropdownToggle = () => {
+    setIsImageDropdownOpen((prev) => !prev);
+  };
   return (
     <div>
       <section className="fixed top-0 left-0 right-0 z-50 bg-white transition-shadow duration-300 shadow border-b bg-background/90 backdrop-blur-lg">
@@ -37,122 +41,139 @@ console.log(isModerator);
           >
             <FaBarsStaggered color="#fff " className="bg-[#F50400]" size={22} />
           </div>
-          <Link to='/' className="md:flex gap-1 hidden  items-center justify-center">
+          <Link
+            to="/"
+            className="md:flex gap-1 hidden  items-center justify-center"
+          >
             <img className="h-[35px]" src={logo} alt="Logo" />
             <h2 className="text-black text-[17px] font-semibold">
               Blog Editor
             </h2>
           </Link>
           {/* Middle Section */}
-         {
-          isAdmin && <div className="md:flex gap-2 hidden text-sm">
-          <NavLink
-            to="admin"
-            end
-            className={({ isActive }) =>
-              isActive
-                ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
-                : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
-            }
-          >
-            Dashboard
-          </NavLink>
-          <NavLink
-            to="admin/users"
-            className={({ isActive }) =>
-              isActive
-                ? "px-5 py-2  text-[#F50400] rounded-sm bg-[#f5f5f5]"
-                : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
-            }
-          >
-            Users
-          </NavLink>
+          {isAdmin && (
+            <div className="md:flex gap-2 hidden text-sm">
+              <NavLink
+                to="admin"
+                end
+                className={({ isActive }) =>
+                  isActive
+                    ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
+                    : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+                }
+              >
+                Dashboard
+              </NavLink>
+              <NavLink
+                to="admin/users"
+                className={({ isActive }) =>
+                  isActive
+                    ? "px-5 py-2  text-[#F50400] rounded-sm bg-[#f5f5f5]"
+                    : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+                }
+              >
+                Users
+              </NavLink>
 
-          <NavLink
-            to="admin/blogs"
-            className={({ isActive }) =>
-              isActive
-                ? "px-5 py-2 text-[#F50400]  rounded-sm bg-[#f5f5f5]"
-                : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
-            }
-          >
-            Blogs
-          </NavLink>
-          <NavLink
-            to="admin"
-            end
-            className={({ isActive }) =>
-              isActive
-                ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
-                : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
-            }
-          >
-            Dashboard
-          </NavLink>
-        </div>
-         }
-         {
-          isModerator && <div className="md:flex gap-2 hidden text-sm">
-          <NavLink
-            to="Moderator"
-            end
-            className={({ isActive }) =>
-              isActive
-                ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
-                : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
-            }
-          >
-            Dashboard
-          </NavLink>
-          
-        </div>
-         }
-         {
-          isBlogger && <div className="md:flex gap-2 hidden text-sm">
-          <NavLink
-            to="blogger"
-            end
-            className={({ isActive }) =>
-              isActive
-                ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
-                : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
-            }
-          >
-            Dashboard
-          </NavLink>
-        
-        </div>
-         }
-         
-          
+              <NavLink
+                to="admin/blogs"
+                className={({ isActive }) =>
+                  isActive
+                    ? "px-5 py-2 text-[#F50400]  rounded-sm bg-[#f5f5f5]"
+                    : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+                }
+              >
+                Blogs
+              </NavLink>
+              <NavLink
+                to="admin"
+                end
+                className={({ isActive }) =>
+                  isActive
+                    ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
+                    : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+                }
+              >
+                Dashboard
+              </NavLink>
+            </div>
+          )}
+          {isModerator && (
+            <div className="md:flex gap-2 hidden text-sm">
+              <NavLink
+                to="Moderator"
+                end
+                className={({ isActive }) =>
+                  isActive
+                    ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
+                    : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+                }
+              >
+                Dashboard
+              </NavLink>
+            </div>
+          )}
+          {isBlogger && (
+            <div className="md:flex gap-2 hidden text-sm">
+              <NavLink
+                to="blogger"
+                end
+                className={({ isActive }) =>
+                  isActive
+                    ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
+                    : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+                }
+              >
+                Dashboard
+              </NavLink>
+            </div>
+          )}
 
           {/* Login Logout */}
-          <div>
-            {user ? (
-              <button
-                onClick={handleLogOut}
-                to="/signin"
-                className="text-white"
+          <div className="">
+            
+            <div className="relative">
+              {/* Profile Image */}
+              <div
+                onClick={handleImageDropdownToggle}
+                className="cursor-pointer"
               >
-                <button className="flex items-center justify-center gap-1 rounded font-medium bg-[#F50400] px-5 py-2 text-white transition-all duration-300 ease-in-out group">
-                  Logout{" "}
-                  <MdLogout
-                    className="transform transition-transform duration-300 ease-in-out group-hover:translate-x-2"
-                    size={21}
-                  />
-                </button>
-              </button>
-            ) : (
-              <Link to="/signin" className="text-white">
-                <button className="flex items-center justify-center gap-1 rounded font-medium bg-[#F50400] px-5 py-2 text-white transition-all duration-300 ease-in-out group">
-                  Login{" "}
-                  <LuLogIn
-                    className="transform transition-transform duration-300 ease-in-out group-hover:translate-x-2"
-                    size={21}
-                  />
-                </button>
-              </Link>
-            )}
+                <img
+                  className="h-10 w-10 rounded-full"
+                  src={user.photoURL}
+                  alt="Profile"
+                />
+              </div>
+
+              {/* Dropdown Menu */}
+              {isImageDropdownOpen && (
+                <div className="absolute right-0 mt-1 w-64 bg-white border shadow rounded-lg py-1 dropdown z-50">
+                  <div className="flex flex-col px-2 py-1">
+                    <button className="flex justify-start items-center  gap-1 rounded font-medium hover:bg-[#F5F5F5] px-5 py-2 text-[#737373] w-full transition-all duration-300 ease-in-out group">
+                      {user.email}
+                      <IoMailUnreadOutline
+                        className="transform transition-transform duration-300 ease-in-out group-hover:translate-x-2"
+                        size={21}
+                      />
+                    </button>
+                    <button className="flex border-b justify-start items-center  gap-1 rounded font-medium hover:bg-[#F5F5F5] px-5 py-2 text-[#737373] w-full transition-all duration-300 ease-in-out group">
+                      Setting
+                      <SlSettings
+                        className="transform transition-transform duration-300 ease-in-out group-hover:translate-x-2"
+                        size={21}
+                      />
+                    </button>
+                    <button   onClick={handleLogOut} className="flex items-center my-1 mx-2 gap-1 rounded font-medium hover:bg-[#F5F5F5] px-5 py-2 text-[#737373] w-full transition-all duration-300 ease-in-out group">
+                      Logout{" "}
+                      <MdLogout
+                        className="transform transition-transform duration-300 ease-in-out group-hover:translate-x-2"
+                        size={21}
+                      />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
         {/*  */}

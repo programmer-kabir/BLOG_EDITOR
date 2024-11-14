@@ -9,15 +9,11 @@ import Signin from "../Pages/Authentication/signin/Signin";
 import Signup from "../Pages/Authentication/Signup/Signup";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import AdminBoard from "../Pages/Dashboard/Admin/AdminBoard";
-import ShowBloggers from "../Pages/Dashboard/Admin/ShowBloggers";
-import ShowModerator from "../Pages/Dashboard/Admin/ShowModerator";
 import AllBlogs from "../Pages/Dashboard/Admin/AllBlogs";
 import AllUsers from "../Pages/Dashboard/Admin/AllUsers";
-import Moderator from "../Pages/Dashboard/Moderator/Moderator";
 import Blogger from "../Pages/Dashboard/Blogger/Blogger";
 import PrivateRoute from "./PrivetRoute";
 import AdminRoute from "./AdminRoute";
-import ModeratorRoute from "./ModeratorRoute";
 import BloggerRoute from "./BloggerRoute";
 import Error from "../Pages/Error/ErrorPage";
 import AddBlog from "../Pages/Dashboard/Blogger/AddBlog";
@@ -87,22 +83,7 @@ const router = createBrowserRouter([
       },
     ],
   },
-  {
-    path: "/dashboard",
-    element: (
-      <PrivateRoute>
-        <ModeratorRoute>
-          <Dashboard />
-        </ModeratorRoute>
-      </PrivateRoute>
-    ),
-    children: [
-      {
-        path: "Moderator",
-        element: <Moderator />,
-      },
-    ],
-  },
+
   {
     path: "/dashboard",
     element: (

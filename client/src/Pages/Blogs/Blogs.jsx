@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchBlogs } from "../Redux/Blogs/blogSlice";
 import BlogCard from "../../Components/Design/BlogCard";
 import useAdmin from "../../Components/Hooks/useAdmin";
-import useModerator from "../../Components/Hooks/useModarator";
 import useBlogger from "../../Components/Hooks/useBlogger";
 
 const CategoryData = [
@@ -31,7 +30,6 @@ const CategoryData = [
 const Blogs = () => {
   const {name} = useParams()
   const [isAdmin] = useAdmin();
-  const [isModerator] = useModerator();
   const [isBlogger] = useBlogger();
   const [activeIndex, setActiveIndex] = useState(null);
   const [categoryCounts, setCategoryCounts] = useState({});

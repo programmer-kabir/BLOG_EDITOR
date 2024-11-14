@@ -6,13 +6,11 @@ import { FaBarsStaggered, FaPlus } from "react-icons/fa6";
 import { MdLogout } from "react-icons/md";
 import logo from "../../assets/Logo/logo1.png";
 import useAdmin from "../../Components/Hooks/useAdmin";
-import useModerator from "../../Components/Hooks/useModarator";
 import useBlogger from "../../Components/Hooks/useBlogger";
 import { SlSettings } from "react-icons/sl";
 import Loader from "../../Components/Loader/Loader";
 const Dashboard = () => {
   const [isAdmin] = useAdmin();
-  const [isModerator] = useModerator();
   const [isBlogger] = useBlogger();
   const { logOut, user, loading } = useAuth();
   // console.log(user);
@@ -85,35 +83,10 @@ const Dashboard = () => {
               >
                 Blogs
               </NavLink>
-              <NavLink
-                to="admin"
-                end
-                className={({ isActive }) =>
-                  isActive
-                    ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
-                    : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
-                }
-              >
-                Dashboard
-              </NavLink>
+            
             </div>
           )}
-         {/* isModerator Section */}
-          {isModerator && (
-            <div className="md:flex gap-2 hidden text-sm">
-              <NavLink
-                to="Moderator"
-                end
-                className={({ isActive }) =>
-                  isActive
-                    ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
-                    : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
-                }
-              >
-                Dashboard
-              </NavLink>
-            </div>
-          )}
+        
           {/* isBlogger Section */}
           {isBlogger && (
             <div className="md:flex gap-2 hidden text-sm">

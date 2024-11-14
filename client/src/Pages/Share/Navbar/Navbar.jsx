@@ -6,12 +6,10 @@ import { FaBarsStaggered, FaPlus } from "react-icons/fa6";
 import { MdLogout } from "react-icons/md";
 import useAuth from "../../../Components/Hooks/useAuth";
 import useAdmin from "../../../Components/Hooks/useAdmin";
-import useModerator from "../../../Components/Hooks/useModarator";
 import useBlogger from "../../../Components/Hooks/useBlogger";
 const Navbar = () => {
   const { logOut, user } = useAuth();
   const [isAdmin] = useAdmin();
-  const [isModerator] = useModerator();
   const [isBlogger] = useBlogger();
 
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -91,18 +89,7 @@ const Navbar = () => {
             Dashboard
           </NavLink>
           }
-          {
-            isModerator &&  <NavLink
-            to="/dashboard/Moderator"
-            className={({ isActive }) =>
-              isActive
-                ? "px-5 py-2 text-[#F50400]   rounded-sm bg-[#f5f5f5]"
-                : "px-5 py-2 text-[#737373] hover:text-[#F50400]"
-            }
-          >
-            Dashboard
-          </NavLink>
-          }
+         
          
         </div>
         {/* Login Logout */}

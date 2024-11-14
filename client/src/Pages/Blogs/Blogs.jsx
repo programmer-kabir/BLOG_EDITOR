@@ -77,7 +77,7 @@ const Blogs = () => {
             >
               <div className="flex gap-3 items-center">
                 {/* Display the icon and title */}
-                <p className="text-[22px]">{data.icon}</p>
+                <p className="text-[18px]">{data.icon}</p>
                 {data.title}
               </div>
 

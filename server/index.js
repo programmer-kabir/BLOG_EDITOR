@@ -145,6 +145,10 @@ async function run() {
       const result = await blogsCollection.insertOne(body)
       res.send(result)
     })
+    app.put('/blogs', async(req, res) =>{
+      const body = req.body
+      console.log(body);
+    })
 
     app.get("/bloggersBlog", async (req, res) => {
       const email = req.query.email;

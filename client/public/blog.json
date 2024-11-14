@@ -18,7 +18,10 @@
       "image": "https://blogplex.vercel.app/_next/image?url=https%3A%2F%2Fi.ibb.co%2Fr4gZ13w%2F16506252af710b73c45962ea07b2d1d6.webp&w=1920&q=100",
       "title": "Healthy Eating: Meal Plans and Recipes",
       "category": "programming",
-      "like": 30
+      "like": {
+        "count":4,
+        "email":["emil@gmaill.com","askf@gmail.com","asa@gmail.com","as@gmail.com"]
+      }
     },
     {
       "email": "jkl@gmail.com",

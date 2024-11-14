@@ -28,7 +28,7 @@ const BlogCard = ({ data }) => {
                 <p className="text-sm font-medium">Name</p>
               </div>
 
-              <p className="text-sm px-2">2 month age</p>
+              <p className="text-sm px-2 text-gray-700">2 month age</p>
             </div>
             {/* Title */}
             <h2 className="truncate  px-2 w-full font-semibold text-xl mt-3">
@@ -38,14 +38,14 @@ const BlogCard = ({ data }) => {
           {/* Icons  */}
           <div className="mt-4  px-2 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <RiWhatsappFill color="#25D366" size={25} />
-              <FaFacebook color="#316FF6" size={23} />
-              <FaLinkedin color="#0077B5" size={23} />
-              <FaCopy size={21} color="#000"/>
-              <FaBookmark size={21} color="#000" />
+              <RiWhatsappFill color="#25D366" size={22} />
+              <FaFacebook color="#316FF6" size={20} />
+              <FaLinkedin color="#0077B5" size={20} />
+              <FaCopy size={18} color="#000"/>
+              <FaBookmark size={17} color="#000" />
             </div>
             <button className="flex items-center gap-1">
-              <BiSolidLike size={22}/> {data.like}
+              <BiSolidLike size={21}/> {data.like}
             </button>
           </div>
         </div>

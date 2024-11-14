@@ -76,7 +76,7 @@ const AllBlogCard = ({ data, link }) => {
             <FaBookmark size={17} color="#000" />
           </div>
           <button className="flex items-center gap-1">
-            <BiSolidLike size={21} /> {data.like}
+            <BiSolidLike size={21} /> {data?.like?.count}
           </button>
         </div>
       </div>

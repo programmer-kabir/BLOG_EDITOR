@@ -40,10 +40,11 @@ const Blogs = () => {
   useEffect(() => {
     dispatch(fetchBlogs());
   }, [dispatch,name]);
-
+  const filteredBlogs = Blogs.filter(blog =>blog.status !== "reject")
+  // console.log(filteredBlogs);
   useEffect(() => {
     const counts = {};
-    Blogs.forEach((blog) => {
+    filteredBlogs.forEach((blog) => {
       if (counts[blog.category]) {
         counts[blog.category] += 1;
       } else {

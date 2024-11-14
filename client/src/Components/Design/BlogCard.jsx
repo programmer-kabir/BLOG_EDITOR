@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { RiWhatsappFill } from "react-icons/ri";
 import { FaBookmark, FaCopy, FaFacebook, FaLinkedin } from "react-icons/fa";
 import { BiSolidLike } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUsers } from "../../Pages/Redux/Users/userSlice";
+import { calculateMonthDifference } from "../DateFomate/DateFormate";
 const BlogCard = ({ data,link }) => {
+  const dispatch = useDispatch();
+  const { isUsersLoading, Users, isUsersError } = useSelector(
+    (state) => state.Users
+  );
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
+  const blogWriter = Users.find(user =>user.email===data.email)
+  const monthDifference = calculateMonthDifference(data.date);
+
   return (
     // <Link to={`details/${data._id}`}>
     <Link to={link}>
@@ -21,14 +34,16 @@ const BlogCard = ({ data,link }) => {
             <div className="flex items-center justify-between border-b pb-2 border-gray-300">
               <div className="flex items-center gap-2  px-2">
                 <img
-                  className="h-10 w-10 rounded-full "
-                  src="https://i.ibb.co/ZgTm450/newuser-02.jpg"
+                  className="h-9 w-9 rounded-full "
+                  src={blogWriter?.photo}
                   alt=""
                 />
-                <p className="text-sm font-medium">Name</p>
+                <p className="text-sm font-medium">{blogWriter?.name}</p>
               </div>
 
-              <p className="text-sm px-2 text-gray-700">2 month age</p>
+              <p className="text-sm px-2 text-gray-700"> {monthDifference === 0
+                ? "This month"
+                : `${monthDifference} month${monthDifference > 1 ? "s" : ""} ago`}</p>
             </div>
             {/* Title */}
             <h2 className="truncate  px-2 w-full font-semibold text-xl mt-3">
@@ -45,7 +60,7 @@ const BlogCard = ({ data,link }) => {
               <FaBookmark size={17} color="#000" />
             </div>
             <button className="flex items-center gap-1">
-              <BiSolidLike size={21}/> {data.like}
+              <BiSolidLike size={21}/> {data.like.count}
             </button>
           </div>
         </div>

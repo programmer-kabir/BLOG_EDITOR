@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import useAuth from "../../../Components/Hooks/useAuth";
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 const AddBlog = () => {
   const { user } = useAuth();
@@ -61,56 +62,7 @@ const AddBlog = () => {
   } = useForm();
   const url =
     "https://api.imgbb.com/1/upload?key=f1e08dc7c44c396aa409d50dfcc797da";
-  //   const onSubmit = (data) => {
-  //     const today = new Date().toLocaleDateString("en-CA"); // Format: YYYY-MM-DD
-
-  //     if (!activeItem) {
-  //       toast.error("Please select your category");
-  //       return;
-  //     }
-  //     if (!content.trim()) {
-  //       toast.error("Please provide content");
-  //       return;
-  //     }
-
-  //     if (!file) {
-  //       setError("image", {
-  //         type: "manual",
-  //         message: "Category image is required",
-  //       });
-  //       return;
-  //     } else {
-  //       clearErrors("image");
-  //     }
-  //     const finalData = {
-  //       ...data,
-  //       date: today,
-  //       email: user.email,
-  //       content,
-  //       category: activeItem.label,
-  //     };
-
-  //     const image = data.image[0];
-  //     console.log(image);
-  //     const formData = new FormData();
-  //     formData.append("image", file);
-  //     fetch(url, {
-  //       method: "POST",
-  //       body: formData,
-  //     })
-  //       .then((res) => res.json())
-  //       .then((image) => {
-  //         const photo = image?.data?.display_url;
-  //         console.log(photo);
-  //         // Add the photo URL to finalData
-  //         // const blogData = { ...finalData, photo };
-
-  //         // axios.post("http://localhost:3000/blogs", blogData).then((response) => {
-  //         //   console.log(response.data);
-  //         // });
-  //       });
-  //   };
-
+  const navigate = useNavigate();
   const onSubmit = async (data) => {
     const today = new Date().toLocaleDateString("en-CA"); // Format: YYYY-MM-DD
 
@@ -134,16 +86,19 @@ const AddBlog = () => {
     } else {
       clearErrors("image");
     }
-let like = 0;
+    let like = 0;
     // Prepare data to be sent
     const finalData = {
       ...data,
       date: today,
       email: user.email,
       content,
-      like,
-      status:'pending',
-      category: activeItem.label
+      like: {
+        count: 0,
+        email: [],
+      },
+      status: "pending",
+      category: activeItem.label,
     };
     delete finalData.image;
     try {
@@ -171,16 +126,13 @@ let like = 0;
       const blogData = { ...finalData, photo };
 
       // Send blog data to the server
-       axios.post(
-        "http://localhost:3000/blogs",
-        blogData
-      )
-      .then(response =>{
+      axios.post("http://localhost:3000/blogs", blogData).then((response) => {
         console.log(response.data);
-        if(response.data.insertedId){
-            toast.success("Your Blog is Successfully Upload")
+        if (response.data.insertedId) {
+          toast.success("Your Blog is Successfully Upload");
+          navigate("../blogger/show-blog");
         }
-      })
+      });
     } catch (error) {
       console.error("Error:", error);
       toast.error("An error occurred. Please try again.");
@@ -193,6 +145,7 @@ let like = 0;
         <h2 className="text-xl md:text-2xl font-semibold text-center">
           Add Blog
         </h2>
+
         <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
           <div>
             <label className="text-sm font-medium leading-none" htmlFor="">

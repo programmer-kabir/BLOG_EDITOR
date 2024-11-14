@@ -6,10 +6,8 @@ import { fetchBlogs } from "../../Pages/Redux/Blogs/blogSlice";
 import BlogCard from "../Design/BlogCard";
 const Blog = () => {
   const { name } = useParams();
-  // console.log(name);
-  if (name === "technologies") {
-    name;
-  }
+  console.log(name);
+ 
   const dispatch = useDispatch();
   const { isBlogLoading, Blogs, isBlogError } = useSelector(
     (state) => state.Blogs
@@ -17,25 +15,12 @@ const Blog = () => {
   useEffect(() => {
     dispatch(fetchBlogs());
   }, [dispatch, name]);
-  const FilterData = Blogs.filter((blog) => {
-    if (name === "technologies") {
-      return blog.category === "technology";
-    } else if (name === "travels") {
-      return blog.category === "travel";
-    } else if (name === "educations") {
-      return blog.category === "education";
-    } else if (name === "lifestyles") {
-      return blog.category === "lifestyle";
-    } else if (name === "fashions") {
-      return blog.category === "fashion";
-    } else if (name === "foods") {
-      return blog.category === "food";
-    } else {
-      return blog.category === name; // General filter for other categories
-    }
-  });
-  const blogsToDisplay = FilterData.length > 0 ? FilterData : Blogs;
+  const filteredBlogs = Blogs.filter(blog =>blog.status !== "reject")
+const updateData = filteredBlogs.filter(sa => sa.category === name)
+  // console.log(filteredBlogs);
+  const blogsToDisplay = name ? updateData : filteredBlogs;
 
+console.log(blogsToDisplay);
   //  console.log(data);
   return (
     <section className="px-5">
@@ -49,12 +34,21 @@ const Blog = () => {
 <BsSlashLg />
 <p>{name}</p>
 </div>
-<div className="grid lg:grid-cols-3 gap-7 pt-7 px-5" >
-
-      {blogsToDisplay .map((data) => (
-        <BlogCard link={`/blogs/details/${data._id}`} key={data._id} data={data} />
-      ))}
+<div className="grid lg:grid-cols-3 gap-7 pt-7 px-5">
+  {/* Check if there are any blogs to display */}
+  {blogsToDisplay.length === 0 ? (
+    <p className="col-span-3 text-center text-gray-500">No blogs available</p>
+  ) : (
+    blogsToDisplay.map((data) => (
+      <BlogCard
+        link={`/blogs/details/${data._id}`}
+        key={data._id}
+        data={data}
+      />
+    ))
+  )}
 </div>
+
     </section>
   );
 };

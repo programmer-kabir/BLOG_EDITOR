@@ -44,6 +44,7 @@ async function run() {
 
     const blogsCollection = client.db("BlogEditor").collection("blogs");
     const usersCollection = client.db("BlogEditor").collection("users");
+    const commentsCollection = client.db("BlogEditor").collection("comments");
     //  jwt
     app.post("/jwt", (req, res) => {
       const user = req.body;
@@ -160,7 +161,7 @@ app.get("/blogs", async (req, res) => {
     app.put('/blogs', async(req, res) =>{
       const data = req.body
       console.log(data);
-      if(data.status === 'approved'){
+      if(data?.status === 'approved'){
         const filter = { _id: new ObjectId(data.blogId) };
         const updateDoc = {
           $set: { status: data.status },
@@ -168,7 +169,7 @@ app.get("/blogs", async (req, res) => {
     
         const result = await blogsCollection.updateOne(filter, updateDoc);
         res.send(result)
-      } else{
+      } else if(data?.status === "reject"){
         
         const filter = { _id: new ObjectId(data.blogId) };
         const updateDoc = {
@@ -176,6 +177,21 @@ app.get("/blogs", async (req, res) => {
         };
         const result = await blogsCollection.updateOne(filter, updateDoc);
         res.send(result)
+      }
+      else{
+        const filter = { _id: new ObjectId(data.id) };
+        const blog = await blogsCollection.findOne(filter);
+        const alreadyLiked = blog.like?.email.includes(data.email);
+        if (alreadyLiked) {
+          return res.status(400).send({ message: 'User has already liked this blog.' });
+        }
+        
+        const updateDoc = {
+          $inc: { 'like.count': 1 }, // Increment the like count
+          $push: { 'like.email': data.email }, // Add the user's email to the email array
+        };
+        const result = await blogsCollection.updateOne(filter, updateDoc);
+        res.send(result)         
       }
       
     })
@@ -190,6 +206,46 @@ app.get("/blogs", async (req, res) => {
       const data = await blogsCollection.find(query).toArray();
       res.send(data);
     });
+
+
+    // Comment
+    app.post('/comments', async (req, res) => {
+      const { blogId, comment } = req.body;
+      try {
+        // Check if a document with the same blogId already exists
+        const existingBlogComments = await commentsCollection.findOne({ blogId });
+    
+        if (existingBlogComments) {
+          // If it exists, update the document by adding the new comment to the array
+          const updateDoc = {
+            $push: { comments: { email: comment.email, comment: comment.text } }
+          };
+    
+          const result = await commentsCollection.updateOne(
+            { blogId },
+            updateDoc
+          );
+          res.send({ message: 'Comment added to existing blog', result });
+        } else {
+          // If it doesn't exist, create a new document
+          const newCommentDocument = {
+            blogId,
+            comments: [{ email: comment.email, comment: comment.text }]
+          };
+    
+          const result = await commentsCollection.insertOne(newCommentDocument);
+          res.send({ message: 'New comment document created', result });
+        }
+      } catch (error) {
+        console.error('Error adding comment:', error);
+        res.status(500).send({ message: 'Internal Server Error' });
+      }
+    });
+
+    app.get('/comments',async(req, res) =>{
+      const result = await commentsCollection.find().toArray()
+      res.send(result)
+    })
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(

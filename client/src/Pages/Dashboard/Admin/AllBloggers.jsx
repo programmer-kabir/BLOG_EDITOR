@@ -6,6 +6,7 @@ import { formatDate } from "../../../Components/DateFomate/DateFormate";
 import axios from "axios";
 // import toast form 'react-hot-toast'
 import toast from 'react-hot-toast'
+import { IoIosArrowForward } from "react-icons/io";
 
 const AllBloggers = () => {
   const dispatch = useDispatch();
@@ -42,6 +43,28 @@ const AllBloggers = () => {
       }
     });
   };
+  const [currentPage, setCurrentPage] = useState(1);
+  const blogsPerPage = 7;
+
+  // Calculate the total number of pages
+  const totalPages = Math.ceil(Users.length / blogsPerPage);
+
+  // Slice the blogs data for the current page
+  const indexOfLastBlog = currentPage * blogsPerPage;
+  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
+  const currentBlogs = Users.slice(indexOfFirstBlog, indexOfLastBlog);
+  const nextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
     <section className="pt-10">
       <div className="w-[95%] mx-auto">
@@ -105,6 +128,26 @@ const AllBloggers = () => {
             </tbody>
           </table>
         </div>
+        <div className="flex gap-3 justify-end pr-5 items-center mt-4">
+      <span className="text-sm">Page {currentPage} of {totalPages}</span>
+
+        <button
+          onClick={prevPage}
+          disabled={currentPage === 1}
+          className="p-1 rotate-180 border rounded disabled:text-gray-500"
+        >
+          <IoIosArrowForward />
+        </button>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={nextPage}
+            disabled={currentPage === totalPages}
+            className="p-1 border rounded disabled:text-gray-500"
+          >
+           <IoIosArrowForward />
+          </button>
+        </div>
+      </div>
       </div>
     </section>
   );

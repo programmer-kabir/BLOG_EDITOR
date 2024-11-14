@@ -19,12 +19,14 @@ import PrivateRoute from "./PrivetRoute";
 import AdminRoute from "./AdminRoute";
 import ModeratorRoute from "./ModeratorRoute";
 import BloggerRoute from "./BloggerRoute";
+import Error from "../Pages/Error/ErrorPage";
+import AddBlog from "../Pages/Dashboard/Blogger/AddBlog";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
-    // errorElement: <Error />,
+    errorElement: <Error />,
     children: [
       {
         path: "/",
@@ -111,6 +113,10 @@ const router = createBrowserRouter([
       {
         path: "blogger",
         element: <Blogger />,
+      },
+      {
+        path: "blogger/add-blog",
+        element: <AddBlog />,
       },
     ],
   },

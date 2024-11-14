@@ -15,7 +15,7 @@ const Dashboard = () => {
   const [isModerator] = useModerator();
   const [isBlogger] = useBlogger();
   const { logOut, user, loading } = useAuth();
-  console.log(user);
+  // console.log(user);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const toggleSidebar = () => {
     setIsNavOpen(!isNavOpen);
@@ -50,7 +50,7 @@ const Dashboard = () => {
               Blog Editor
             </h2>
           </Link>
-          {/* Middle Section */}
+          {/* Admin Section */}
           {isAdmin && (
             <div className="md:flex gap-2 hidden text-sm">
               <NavLink
@@ -98,6 +98,7 @@ const Dashboard = () => {
               </NavLink>
             </div>
           )}
+         {/* isModerator Section */}
           {isModerator && (
             <div className="md:flex gap-2 hidden text-sm">
               <NavLink
@@ -113,6 +114,7 @@ const Dashboard = () => {
               </NavLink>
             </div>
           )}
+          {/* isBlogger Section */}
           {isBlogger && (
             <div className="md:flex gap-2 hidden text-sm">
               <NavLink
@@ -125,6 +127,17 @@ const Dashboard = () => {
                 }
               >
                 Dashboard
+              </NavLink>
+              <NavLink
+                to="blogger/add-blog"
+                end
+                className={({ isActive }) =>
+                  isActive
+                    ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
+                    : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+                }
+              >
+                Add Blog
               </NavLink>
             </div>
           )}

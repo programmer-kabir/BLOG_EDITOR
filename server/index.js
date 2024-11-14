@@ -140,6 +140,12 @@ async function run() {
       res.send(result);
     });
 
+    app.post('/blogs', async(req, res) =>{
+      const body = req.body
+      const result = await blogsCollection.insertOne(body)
+      res.send(result)
+    })
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(

@@ -134,13 +134,14 @@ const AddBlog = () => {
     } else {
       clearErrors("image");
     }
-
+let like = 0;
     // Prepare data to be sent
     const finalData = {
       ...data,
       date: today,
       email: user.email,
       content,
+      like,
       category: activeItem.label
     };
     delete finalData.image;

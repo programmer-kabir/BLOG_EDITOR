@@ -6,6 +6,7 @@ import { fetchBlogs } from "../../Pages/Redux/Blogs/blogSlice";
 import BlogCard from "../Design/BlogCard";
 const Blog = () => {
   const { name } = useParams();
+  // console.log(name);
   if (name === "technologies") {
     name;
   }
@@ -33,6 +34,8 @@ const Blog = () => {
       return blog.category === name; // General filter for other categories
     }
   });
+  const blogsToDisplay = FilterData.length > 0 ? FilterData : Blogs;
+
   //  console.log(data);
   return (
     <section className="px-5">
@@ -48,7 +51,7 @@ const Blog = () => {
 </div>
 <div className="grid lg:grid-cols-3 gap-7 pt-7 px-5" >
 
-      {FilterData.map((data) => (
+      {blogsToDisplay .map((data) => (
         <BlogCard key={data._id} data={data} />
       ))}
 </div>

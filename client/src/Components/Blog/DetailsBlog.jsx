@@ -18,6 +18,7 @@ import { RiWhatsappFill } from "react-icons/ri";
 
 const DetailsBlog = () => {
   const { id } = useParams();
+  console.log(id);
   const dispatch = useDispatch();
   const { isBlogLoading, Blogs, isBlogError } = useSelector(
     (state) => state.Blogs
@@ -31,7 +32,7 @@ const DetailsBlog = () => {
   // Ensure Blogs is populated before trying to find a specific blog
   const currentBlog =
     Blogs && Blogs.length > 0
-      ? Blogs.find((blog) => blog._id === Number(id))
+      ? Blogs.find((blog) => blog._id === id)
       : null;
   // Comment
   const [isCommentModal, setIsCommentModal] = useState(false);

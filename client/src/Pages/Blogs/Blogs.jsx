@@ -8,9 +8,10 @@ import { RiGraduationCapLine } from "react-icons/ri";
 import { FaRegLifeRing } from "react-icons/fa6";
 import { PiBowlFoodLight, PiDressThin } from "react-icons/pi";
 import { LuBookMarked, LuLogIn } from "react-icons/lu";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBlogs } from "../Redux/Blogs/blogSlice";
+import BlogCard from "../../Components/Design/BlogCard";
 
 const CategoryData = [
   { title: "programming", icon: <IoIosCode />, link: "programming" },
@@ -25,15 +26,17 @@ const CategoryData = [
 ];
 
 const Blogs = () => {
+  const {name} = useParams()
+  console.log(name);
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [categoryCounts, setCategoryCounts] = useState({});
   const dispatch = useDispatch();
   const { isBlogLoading, Blogs, isBlogError } = useSelector(
     (state) => state.Blogs
   );
   useEffect(() => {
     dispatch(fetchBlogs());
-  }, [dispatch]);
-  const [activeIndex, setActiveIndex] = useState(null);
-  const [categoryCounts, setCategoryCounts] = useState({});
+  }, [dispatch,name]);
 
   useEffect(() => {
     const counts = {};
@@ -46,7 +49,8 @@ const Blogs = () => {
     });
     setCategoryCounts(counts); // Store the counts in state
   }, [Blogs]);
-  console.log(categoryCounts);
+  // Filter blogs based on category or show all if no category is selected
+
   return (
     <section className="flex items-start">
       {/* Left Side (Fixed Sidebar) */}
@@ -60,10 +64,10 @@ const Blogs = () => {
         {/* Blog Category Name */}
         <div className="grid items-start py-2 lg:pl-4 gap-2 mr-5 border-b">
           {CategoryData.map((data, index) => (
-          //  <Link to={`/category/${data.link}`} key={index}>
+            //  <Link to={`/category/${data.link}`} key={index}>
             <Link
-            to={`category/${data.link}`}
-            key={index}
+              to={`category/${data.link}`}
+              key={index}
               onClick={() => setActiveIndex(index)}
               className={`text-[17px] flex px-2 py-2 items-center justify-start gap-2 transition-all ${
                 activeIndex === index
@@ -79,7 +83,8 @@ const Blogs = () => {
 
               {/* Notification Badge with spacing */}
               <p className="ml-auto bg-[#F50400] rounded-full w-3 h-3 flex items-center justify-center p-3 text-white">
-                {categoryCounts[data.link] || 0} {/* Display the category count */}
+                {categoryCounts[data.link] || 0}{" "}
+                {/* Display the category count */}
               </p>
             </Link>
             // </Link>
@@ -113,44 +118,54 @@ const Blogs = () => {
 
       {/* Right Side */}
       <div className="w-[80%] ml-[20%] ">
-       
-         {/* Header */}
-         <div className="h-14 px-5 border-b flex items-center justify-between">
-        <div className="relative">
-             
-              <input
-                className="bg-white w-full pr-11 h-10 pl-8 py-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded transition duration-200 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md"
-                placeholder="Search blogs..."
-                // value={searchTerm}
-                // onChange={(e) => setSearchTerm(e.target.value)} // Update search term
-              />
-              <button
-                className="absolute left-0 h-8 w-8  top-1 my-auto px-2 flex items-center rounded"
-                type="button"
+        {/* Header */}
+        <div className="h-14 px-5 border-b flex items-center justify-between">
+          <div className="relative">
+            <input
+              className="bg-white w-full pr-11 h-10 pl-8 py-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded transition duration-200 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md"
+              placeholder="Search blogs..."
+              // value={searchTerm}
+              // onChange={(e) => setSearchTerm(e.target.value)} // Update search term
+            />
+            <button
+              className="absolute left-0 h-8 w-8  top-1 my-auto px-2 flex items-center rounded"
+              type="button"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="3"
+                stroke="currentColor"
+                className="w-8 h-8 text-slate-600"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="3"
-                  stroke="currentColor"
-                  className="w-8 h-8 text-slate-600"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div className="text-white">
-          <button className="flex rounded items-center justify-center gap-1 font-medium bg-[#F50400] px-5 py-2 group">
-            Login <LuLogIn className="transform transition-transform duration-300 ease-in-out group-hover:translate-x-2" size={21} />
-          </button>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                />
+              </svg>
+            </button>
+          </div>
+          <div className="text-white">
+            <button className="flex rounded items-center justify-center gap-1 font-medium bg-[#F50400] px-5 py-2 group">
+              Login{" "}
+              <LuLogIn
+                className="transform transition-transform duration-300 ease-in-out group-hover:translate-x-2"
+                size={21}
+              />
+            </button>
+          </div>
         </div>
-        </div>
-       <Outlet />
+        {/* Blog List */}
+        {/* <div className="grid lg:grid-cols-3 gap-7 pt-7 px-5">
+          {isBlogLoading && <p>Loading...</p>}
+          {isBlogError && <p>Error loading blogs</p>}
+          {filteredBlogs.map((blog) => (
+            <BlogCard key={blog._id} data={blog} />
+          ))}
+        </div> */}
+        <Outlet />
       </div>
     </section>
   );

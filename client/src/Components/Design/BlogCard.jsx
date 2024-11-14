@@ -5,12 +5,13 @@ import { BiSolidLike } from "react-icons/bi";
 import { Link } from "react-router-dom";
 const BlogCard = ({ data }) => {
   return (
-    <Link to={`../details/${data._id}`}>
-      
+    // <Link to={`details/${data._id}`}>
+    <Link to={`/blogs/details/${data._id}`}>
+
       <div className="block rounded-md border border-gray-300 shadow-sm hover:shadow-md shadow-indigo-100">
         <img
           alt=""
-          src="https://images.unsplash.com/photo-1613545325278-f24b0cae1224?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+          src={data.photo}
           className="h-56 w-full rounded-t-md object-cover"
         />
 

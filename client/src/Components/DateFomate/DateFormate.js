@@ -18,3 +18,12 @@ export const formatDate = (dateString) => {
     return `${day}${daySuffix} ${month}, ${year}`;
   };
   
+  export const calculateMonthDifference = (dateString) => {
+    const today = new Date();
+    const givenDate = new Date(dateString);
+
+    const yearsDiff = today.getFullYear() - givenDate.getFullYear();
+    const monthsDiff = today.getMonth() - givenDate.getMonth();
+
+    return yearsDiff * 12 + monthsDiff;
+  };

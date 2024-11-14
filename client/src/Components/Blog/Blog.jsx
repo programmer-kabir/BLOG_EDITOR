@@ -18,7 +18,7 @@ const Blog = () => {
   }, [dispatch, name]);
   const FilterData = Blogs.filter((blog) => {
     if (name === "technologies") {
-      return blog.category === "technology"; // Specifically filter for 'technology' when name is 'technologies'
+      return blog.category === "technology";
     } else if (name === "travels") {
       return blog.category === "travel";
     } else if (name === "educations") {

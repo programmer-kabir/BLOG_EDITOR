@@ -141,7 +141,7 @@ const AddBlog = () => {
       date: today,
       email: user.email,
       content,
-      category: categoryItems.find((item) => item.id === activeItem)?.label, // Get the category label
+      category: activeItem.label
     };
     delete finalData.image;
     try {

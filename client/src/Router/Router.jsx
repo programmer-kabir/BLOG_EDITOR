@@ -21,6 +21,7 @@ import ModeratorRoute from "./ModeratorRoute";
 import BloggerRoute from "./BloggerRoute";
 import Error from "../Pages/Error/ErrorPage";
 import AddBlog from "../Pages/Dashboard/Blogger/AddBlog";
+import ShowBlog from "../Pages/Dashboard/Blogger/ShowBlog";
 
 const router = createBrowserRouter([
   {
@@ -117,6 +118,10 @@ const router = createBrowserRouter([
       {
         path: "blogger/add-blog",
         element: <AddBlog />,
+      },
+      {
+        path: "blogger/show-blog",
+        element: <ShowBlog />,
       },
     ],
   },

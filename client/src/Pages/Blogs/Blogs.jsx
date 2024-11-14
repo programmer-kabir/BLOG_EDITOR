@@ -14,14 +14,14 @@ import { fetchBlogs } from "../Redux/Blogs/blogSlice";
 
 const CategoryData = [
   { title: "programming", icon: <IoIosCode />, link: "programming" },
-  { title: "technology", icon: <GiProcessor />, link: "technologies" },
+  { title: "technology", icon: <GiProcessor />, link: "technology" },
   { title: "devops", icon: <TfiWorld />, link: "devops" },
-  { title: "travel", icon: <IoBicycleOutline />, link: "travels" },
-  { title: "education", icon: <RiGraduationCapLine />, link: "educations" },
-  { title: "lifestyle", icon: <FaRegLifeRing />, link: "lifestyles" },
+  { title: "travel", icon: <IoBicycleOutline />, link: "travel" },
+  { title: "education", icon: <RiGraduationCapLine />, link: "education" },
+  { title: "lifestyle", icon: <FaRegLifeRing />, link: "lifestyle" },
   { title: "fitness", icon: <IoMdFitness />, link: "fitness" },
-  { title: "fashion", icon: <PiDressThin />, link: "fashions" },
-  { title: "food", icon: <PiBowlFoodLight />, link: "foods" },
+  { title: "fashion", icon: <PiDressThin />, link: "fashion" },
+  { title: "food", icon: <PiBowlFoodLight />, link: "food" },
 ];
 
 const Blogs = () => {
@@ -46,6 +46,7 @@ const Blogs = () => {
     });
     setCategoryCounts(counts); // Store the counts in state
   }, [Blogs]);
+  console.log(categoryCounts);
   return (
     <section className="flex items-start">
       {/* Left Side (Fixed Sidebar) */}

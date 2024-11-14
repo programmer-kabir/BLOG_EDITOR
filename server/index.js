@@ -146,6 +146,16 @@ async function run() {
       res.send(result)
     })
 
+    app.get("/bloggersBlog", async (req, res) => {
+      const email = req.query.email;
+      console.log(email);
+      if (!email) {
+        res.send([]);
+      }
+      const query = { email: email };
+      const data = await blogsCollection.find(query).toArray();
+      res.send(data);
+    });
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(

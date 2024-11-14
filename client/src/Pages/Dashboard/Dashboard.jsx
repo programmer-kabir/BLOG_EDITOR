@@ -139,6 +139,17 @@ const Dashboard = () => {
               >
                 Add Blog
               </NavLink>
+              <NavLink
+                to="blogger/show-blog"
+                end
+                className={({ isActive }) =>
+                  isActive
+                    ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
+                    : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+                }
+              >
+                Show Blog
+              </NavLink>
             </div>
           )}
 

@@ -142,6 +142,7 @@ let like = 0;
       email: user.email,
       content,
       like,
+      status:'pending',
       category: activeItem.label
     };
     delete finalData.image;

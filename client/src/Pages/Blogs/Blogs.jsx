@@ -8,10 +8,13 @@ import { RiGraduationCapLine } from "react-icons/ri";
 import { FaRegLifeRing } from "react-icons/fa6";
 import { PiBowlFoodLight, PiDressThin } from "react-icons/pi";
 import { LuBookMarked, LuLogIn } from "react-icons/lu";
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Link, NavLink, Outlet, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBlogs } from "../Redux/Blogs/blogSlice";
 import BlogCard from "../../Components/Design/BlogCard";
+import useAdmin from "../../Components/Hooks/useAdmin";
+import useModerator from "../../Components/Hooks/useModarator";
+import useBlogger from "../../Components/Hooks/useBlogger";
 
 const CategoryData = [
   { title: "programming", icon: <IoIosCode />, link: "programming" },
@@ -27,7 +30,9 @@ const CategoryData = [
 
 const Blogs = () => {
   const {name} = useParams()
-  console.log(name);
+  const [isAdmin] = useAdmin();
+  const [isModerator] = useModerator();
+  const [isBlogger] = useBlogger();
   const [activeIndex, setActiveIndex] = useState(null);
   const [categoryCounts, setCategoryCounts] = useState({});
   const dispatch = useDispatch();
@@ -56,11 +61,10 @@ const Blogs = () => {
       {/* Left Side (Fixed Sidebar) */}
       <div className="fixed top-0 left-0 pr-5 w-[20%] h-screen border-r bg-white z-10">
         {/* Logo */}
-        <div className="md:flex pl-5 h-14 gap-1 hidden items-center justify-start border-b">
+        <Link to='/' className="md:flex pl-5 h-14 gap-1 hidden items-center justify-start border-b">
           <img className="h-[35px]" src={logo} alt="Logo" />
           <h2 className="text-black text-[17px] font-semibold">Blog Editor</h2>
-        </div>
-
+        </Link>
         {/* Blog Category Name */}
         <div className="grid items-start py-2 lg:pl-4 gap-2 mr-5 border-b">
           {CategoryData.map((data, index) => (
@@ -147,7 +151,50 @@ const Blogs = () => {
               </svg>
             </button>
           </div>
-          <div className="text-white">
+          
+          <div className="text-white flex items-center gap-4">
+          <div className="md:flex text-black gap-2 hidden ">
+         
+          
+         
+          {
+            isAdmin &&  <NavLink
+            to="/dashboard/admin"
+            className={({ isActive }) =>
+              isActive
+                ? "px-5 py-2 text-[#F50400]   rounded-sm bg-[#f5f5f5]"
+                : "px-5 py-2 text-[#737373] hover:text-[#F50400]"
+            }
+          >
+            Dashboard
+          </NavLink>
+          }
+          {
+            isBlogger &&  <NavLink
+            to="/dashboard/blogger"
+            className={({ isActive }) =>
+              isActive
+                ? "px-5 py-2 text-[#F50400]   rounded-sm bg-[#f5f5f5]"
+                : "px-5 py-2 text-[#737373] hover:text-[#F50400]"
+            }
+          >
+            Dashboard
+          </NavLink>
+          }
+          {
+            isModerator &&  <NavLink
+            to="/dashboard/Moderator"
+            className={({ isActive }) =>
+              isActive
+                ? "px-5 py-2 text-[#F50400]   rounded-sm bg-[#f5f5f5]"
+                : "px-5 py-2 text-[#737373] hover:text-[#F50400]"
+            }
+          >
+            Dashboard
+          </NavLink>
+          }
+         
+        </div>
             <button className="flex rounded items-center justify-center gap-1 font-medium bg-[#F50400] px-5 py-2 group">
               Login{" "}
               <LuLogIn

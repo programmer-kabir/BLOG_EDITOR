@@ -125,6 +125,10 @@ const router = createBrowserRouter([
         path: "blogger/show-blog",
         element: <ShowBlog />,
       },
+      {
+        path: "blogger/blog-details/:id",
+        element: <DetailsBlog />,
+      },
     ],
   },
 ]);

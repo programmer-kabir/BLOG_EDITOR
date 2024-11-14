@@ -52,7 +52,7 @@ const Blog = () => {
 <div className="grid lg:grid-cols-3 gap-7 pt-7 px-5" >
 
       {blogsToDisplay .map((data) => (
-        <BlogCard key={data._id} data={data} />
+        <BlogCard link={`/blogs/details/${data._id}`} key={data._id} data={data} />
       ))}
 </div>
     </section>

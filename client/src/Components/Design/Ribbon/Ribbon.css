@@ -1,0 +1,37 @@
+
+.ribbon-pop {
+  background: #F50400 ;
+  display: inline-block;
+  padding: 2px 10px;
+  color: white;
+  font-weight: 400;
+  font-size: 12px;
+  position: relative;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px
+}
+.ribbon-pop:after {
+  content: "";
+  width: 0;
+  height: 0;
+  top: 0;
+  position: absolute;
+  right: 0;
+  border-radius: 100px;
+  /* border-right: 20px solid #fff; */
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+}
+.ribbon-pop:before {
+  height: 0;
+  width: 0;
+  border-top: 10px solid #8d0401 ;
+  border-left: 10px solid transparent;
+  bottom: -10px;
+
+  position: absolute;
+  content: "";
+  left: 0;
+}
+

@@ -179,18 +179,7 @@ const Blogs = () => {
             Dashboard
           </NavLink>
           }
-          {
-            isModerator &&  <NavLink
-            to="/dashboard/Moderator"
-            className={({ isActive }) =>
-              isActive
-                ? "px-5 py-2 text-[#F50400]   rounded-sm bg-[#f5f5f5]"
-                : "px-5 py-2 text-[#737373] hover:text-[#F50400]"
-            }
-          >
-            Dashboard
-          </NavLink>
-          }
+         
          
         </div>
             <button className="flex rounded items-center justify-center gap-1 font-medium bg-[#F50400] px-5 py-2 group">

@@ -63,7 +63,17 @@ const Dashboard = () => {
                 Dashboard
               </NavLink>
               <NavLink
-                to="admin/users"
+                to="admin/show-bloggers"
+                className={({ isActive }) =>
+                  isActive
+                    ? "px-5 py-2  text-[#F50400] rounded-sm bg-[#f5f5f5]"
+                    : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+                }
+              >
+                Bloggers
+              </NavLink>
+              {user.email === 'kabirr@gmail.com' &&  <NavLink
+                to="admin/show-users"
                 className={({ isActive }) =>
                   isActive
                     ? "px-5 py-2  text-[#F50400] rounded-sm bg-[#f5f5f5]"
@@ -71,7 +81,8 @@ const Dashboard = () => {
                 }
               >
                 Users
-              </NavLink>
+              </NavLink>}
+             
 
               <NavLink
                 to="admin/blogs"

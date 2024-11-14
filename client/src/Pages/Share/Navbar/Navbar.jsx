@@ -11,7 +11,7 @@ const Navbar = () => {
   const { logOut, user } = useAuth();
   const [isAdmin] = useAdmin();
   const [isBlogger] = useBlogger();
-
+console.log(isBlogger);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const toggleSidebar = () => {
     setIsNavOpen(!isNavOpen);

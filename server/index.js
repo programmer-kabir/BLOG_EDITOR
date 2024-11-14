@@ -95,45 +95,57 @@ async function run() {
       const result = { admin: user?.role === "admin" };
       res.send(result);
     });
-    // Update user to moderator
-    app.patch("/users/moderator/:id", async (req, res) => {
-      const id = req.params.id;
-      const filter = { _id: new ObjectId(id) };
-      // console.log(filter);
-      // // console.log(filter);
-      const updatedDoc = {
-        $set: {
-          role: "moderator",
-        },
-      };
-      const result = await usersCollection.updateOne(filter, updatedDoc);
-      res.send(result);
-    });
-
-    // Get moderator
-    app.get("/users/moderator/:email", verifyJWT, async (req, res) => {
-      const email = req.params.email;
-
-      if (req.decoded.email !== email) {
-        res.send({ moderator: false });
+    
+    // User Delete
+    app.delete('/users/:email', async (req, res) => {
+      const email = req.params.email; // Get the email from the request parameters
+      const query = { email: email }; // Create a query object with the email
+    
+      try {
+        // Check if the user exists
+        const existingUser = await usersCollection.findOne(query);
+        console.log('User Found:', existingUser);
+    
+        // If user does not exist, return a 404 response
+        if (!existingUser) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+    
+        // Delete the user from the database
+        const result = await usersCollection.deleteOne(query);
+        console.log('Deleted Count:', result.deletedCount);
+    
+        // Send success response
+        if (result.deletedCount > 0) {
+          res.status(200).json({ message: 'User deleted successfully' });
+        } else {
+          res.status(500).json({ message: 'Failed to delete user' });
+        }
+      } catch (error) {
+        console.error('Error deleting user:', error);
+        res.status(500).json({ message: 'Server error' });
       }
-      const query = { email: email };
-      const user = await usersCollection.findOne(query);
-      const result = { moderator: user?.role === "moderator" };
-      res.send(result);
     });
-    // Get moderator
-    app.get("/users/blogger/:email", verifyJWT, async (req, res) => {
-      const email = req.params.email;
+    
+//  GEt bloger
+app.get("/users/blogger/:email", verifyJWT, async (req, res) => {
+  const email = req.params.email;
 
-      if (req.decoded.email !== email) {
-        res.send({ blogger: false });
-      }
-      const query = { email: email };
-      const user = await usersCollection.findOne(query);
-      const result = { blogger: user?.role === "blogger" };
-      res.send(result);
-    });
+  if (req.decoded.email !== email) {
+    res.send({ blogger: false });
+  }
+  const query = { email: email };
+  const user = await usersCollection.findOne(query);
+  const result = { blogger: user?.role === "blogger" };
+  res.send(result);
+});
+// Blogs
+app.get("/blogs", async (req, res) => {
+  const result = await blogsCollection.find().toArray();
+  res.send(result);
+});
+
+  
     // Blogs
     app.get("/blogs", async (req, res) => {
       const result = await blogsCollection.find().toArray();
@@ -146,8 +158,26 @@ async function run() {
       res.send(result)
     })
     app.put('/blogs', async(req, res) =>{
-      const body = req.body
-      console.log(body);
+      const data = req.body
+      console.log(data);
+      if(data.status === 'approved'){
+        const filter = { _id: new ObjectId(data.blogId) };
+        const updateDoc = {
+          $set: { status: data.status },
+        };
+    
+        const result = await blogsCollection.updateOne(filter, updateDoc);
+        res.send(result)
+      } else{
+        
+        const filter = { _id: new ObjectId(data.blogId) };
+        const updateDoc = {
+          $set: { status: data.status,rejectReason: data.rejectReason },
+        };
+        const result = await blogsCollection.updateOne(filter, updateDoc);
+        res.send(result)
+      }
+      
     })
 
     app.get("/bloggersBlog", async (req, res) => {

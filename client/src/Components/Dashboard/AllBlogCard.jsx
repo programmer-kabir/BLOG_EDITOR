@@ -93,10 +93,9 @@ const AllBlogCard = ({ data, link }) => {
       {rejectModal && (
         <div className="fixed top-1/2 w-[450px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-6 bg-white rounded-lg shadow-lg z-50">
           <h2 className="text-xl font-semibold mb-3">Reject Reason</h2>
-          <div className="flex flex-col items-end">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum modi
-              omnis totam. Voluptate, et nulla.
+          <div className="flex flex-col">
+            <p className="text-start text-[#F50400]">
+             {data.rejectReason}
             </p>
             <button
               className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"

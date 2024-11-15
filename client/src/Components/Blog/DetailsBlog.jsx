@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { BsSlashLg } from "react-icons/bs";
@@ -23,14 +22,19 @@ import { fetchUsers } from "../../Pages/Redux/Users/userSlice";
 import { calculateMonthDifference } from "../DateFomate/DateFormate";
 import toast from "react-hot-toast";
 import { fetchComments } from "../../Pages/Redux/Comments/commentSlice";
+import ShowComments from "../Dashboard/ShowComments/ShowComments";
 
 const DetailsBlog = () => {
   const { id } = useParams();
   const { user } = useAuth();
+  console.log(user);
   const dispatch = useDispatch();
-  const { isBlogLoading, Blogs, isBlogError } = useSelector((state) => state.Blogs);
-  const { isUsersLoading, Users, isUsersError } = useSelector((state) => state.Users);
-  const { isCommentsLoading, Comments, isCommentsError } = useSelector((state) => state.Comments);
+  const { isBlogLoading, Blogs, isBlogError } = useSelector(
+    (state) => state.Blogs
+  );
+  const { isUsersLoading, Users, isUsersError } = useSelector(
+    (state) => state.Users
+  );
 
   useEffect(() => {
     dispatch(fetchBlogs());
@@ -45,7 +49,7 @@ const DetailsBlog = () => {
   const [isCommentModal, setIsCommentModal] = useState(false);
   const [comment, setComment] = useState("");
   const [likeCount, setLikeCount] = useState(currentBlog?.like?.count);
-  console.log(likeCount);
+  // console.log(likeCount);
   const [hasLiked, setHasLiked] = useState(
     currentBlog?.like?.email?.includes(user?.email)
   );
@@ -79,13 +83,20 @@ const DetailsBlog = () => {
       }
 
       // Send request to backend
-      const response = await axios.put(`http://localhost:3000/blogs`, updatedData);
+      const response = await axios.put(
+        `http://localhost:3000/blogs`,
+        updatedData
+      );
 
       if (response.status === 200) {
-        toast.success(hasLiked ? "Blog unliked successfully" : "Blog liked successfully");
+        toast.success(
+          hasLiked ? "Blog unliked successfully" : "Blog liked successfully"
+        );
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to update like status");
+      toast.error(
+        error.response?.data?.message || "Failed to update like status"
+      );
       // Revert state changes if there's an error
       setLikeCount(hasLiked ? likeCount + 1 : likeCount - 1);
       setHasLiked(!hasLiked);
@@ -100,19 +111,24 @@ const DetailsBlog = () => {
     const commentData = {
       blogId: id,
       comment: {
+        name: user.displayName,
+        image: user.photoURL,
         email: user.email,
         text: comment,
       },
     };
     try {
-      const response = await axios.post("http://localhost:3000/comments", commentData);
+      const response = await axios.post(
+        "http://localhost:3000/comments",
+        commentData
+      );
       if (response.status === 200) {
         toast.success("Comment added successfully!");
       } else {
         toast.error("Failed to add comment.");
       }
     } catch (error) {
-      console.error("Error posting comment:", error);
+      // console.error("Error posting comment:", error);
       toast.error("An error occurred while posting the comment.");
     }
 
@@ -126,40 +142,49 @@ const DetailsBlog = () => {
   return (
     <section className="px-5">
       <div className=" border mt-7 rounded">
-        <img src={currentBlog?.photo} alt={currentBlog?.title} className="w-full h-[500px] object-fill rounded-t" />
+        <img
+          src={currentBlog?.photo}
+          alt={currentBlog?.title}
+          className="w-full h-[500px] object-fill rounded-t"
+        />
         <div className="pt-5 flex items-center justify-between border-b px-5 py-2">
           <div className="flex items-center gap-2  px-2">
-            <img className="h-9 w-9 rounded-full" src={blogWriter?.photo} alt="" />
+            <img
+              className="h-9 w-9 rounded-full"
+              src={blogWriter?.photo}
+              alt=""
+            />
             <p className="text-sm font-medium">{blogWriter?.name}</p>
           </div>
           <p className="text-sm px-2 text-gray-700">
-            {monthDifference === 0 ? "This month" : `${monthDifference} month${monthDifference > 1 ? "s" : ""} ago`}
+            {monthDifference === 0
+              ? "This month"
+              : `${monthDifference} month${monthDifference > 1 ? "s" : ""} ago`}
           </p>
         </div>
 
         <div className="space-y-5 px-5">
-          <h2 className="md:text-md text-xl font-semibold">{currentBlog?.title}</h2>
-          <p className="text-xl font-semibold">Category: <span className="text-base font-normal">{currentBlog.category}</span></p>
+          <h2 className="md:text-md text-xl font-semibold">
+            {currentBlog?.title}
+          </h2>
+          <p className="text-xl font-semibold">
+            Category:{" "}
+            <span className="text-base font-normal">
+              {currentBlog.category}
+            </span>
+          </p>
           <p dangerouslySetInnerHTML={{ __html: currentBlog?.content }}></p>
         </div>
 
-        {/* <div className="my-4 px-5 flex items-center justify-center gap-4">
-          <button onClick={handleLike} className="flex items-center gap-1">
-            <BiSolidLike size={22} />
-            {likeCount}
-          </button>
-          <button onClick={toggleCommentModal} className="flex items-center gap-1">
-            <FaComment size={22} /> Comment
-          </button>
-        </div> */}
-         <div className="my-4 px-5 flex items-center justify-center gap-4">
+        <ShowComments id={currentBlog._id} />
+        <div className="my-4 px-5 flex items-center justify-center gap-4">
           {/*  */}
 
           <button
             onClick={() => handleLike(currentBlog._id)}
             className="flex items-center gap-1"
           >
-            <BiSolidLike size={22} />  {likeCount}
+            <BiSolidLike size={22} /> {likeCount}
           </button>
           <button
             onClick={toggleCommentModal}
@@ -180,6 +205,7 @@ const DetailsBlog = () => {
               }}
             ></div>
           )}
+
           {/* Comment Modal */}
           {isCommentModal && (
             <div className="fixed top-1/2 w-[450px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-6 bg-white  rounded-lg shadow-lg z-50">
@@ -192,11 +218,11 @@ const DetailsBlog = () => {
                   placeholder="Enter Your Comment"
                   id=""
                   value={comment} // Bind input value to state
-              onChange={(e) => setComment(e.target.value)}
+                  onChange={(e) => setComment(e.target.value)}
                 />
                 <button
                   className="mt-2 flex items-center justify-end bg-blue-500 text-white px-4 py-2 rounded"
-                  onClick={()=>handleComment(currentBlog._id)}
+                  onClick={() => handleComment(currentBlog._id)}
                 >
                   Submit
                 </button>
@@ -235,7 +261,10 @@ const DetailsBlog = () => {
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />
-          <button className="mt-2 bg-blue-500 text-white px-4 py-2 rounded" onClick={() => handleComment(currentBlog._id)}>
+          <button
+            className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
+            onClick={() => handleComment(currentBlog._id)}
+          >
             Submit
           </button>
         </div>

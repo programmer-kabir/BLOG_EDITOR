@@ -96,112 +96,108 @@ async function run() {
       const result = { admin: user?.role === "admin" };
       res.send(result);
     });
-    
+
     // User Delete
-    app.delete('/users/:email', async (req, res) => {
+    app.delete("/users/:email", async (req, res) => {
       const email = req.params.email; // Get the email from the request parameters
       const query = { email: email }; // Create a query object with the email
-    
+
       try {
         // Check if the user exists
         const existingUser = await usersCollection.findOne(query);
-        console.log('User Found:', existingUser);
-    
+        console.log("User Found:", existingUser);
+
         // If user does not exist, return a 404 response
         if (!existingUser) {
-          return res.status(404).json({ message: 'User not found' });
+          return res.status(404).json({ message: "User not found" });
         }
-    
+
         // Delete the user from the database
         const result = await usersCollection.deleteOne(query);
-        console.log('Deleted Count:', result.deletedCount);
-    
+        console.log("Deleted Count:", result.deletedCount);
+
         // Send success response
         if (result.deletedCount > 0) {
-          res.status(200).json({ message: 'User deleted successfully' });
+          res.status(200).json({ message: "User deleted successfully" });
         } else {
-          res.status(500).json({ message: 'Failed to delete user' });
+          res.status(500).json({ message: "Failed to delete user" });
         }
       } catch (error) {
-        console.error('Error deleting user:', error);
-        res.status(500).json({ message: 'Server error' });
+        console.error("Error deleting user:", error);
+        res.status(500).json({ message: "Server error" });
       }
     });
-    
-//  GEt bloger
-app.get("/users/blogger/:email", verifyJWT, async (req, res) => {
-  const email = req.params.email;
 
-  if (req.decoded.email !== email) {
-    res.send({ blogger: false });
-  }
-  const query = { email: email };
-  const user = await usersCollection.findOne(query);
-  const result = { blogger: user?.role === "blogger" };
-  res.send(result);
-});
-// Blogs
-app.get("/blogs", async (req, res) => {
-  const result = await blogsCollection.find().toArray();
-  res.send(result);
-});
+    //  GEt bloger
+    app.get("/users/blogger/:email", verifyJWT, async (req, res) => {
+      const email = req.params.email;
 
-  
+      if (req.decoded.email !== email) {
+        res.send({ blogger: false });
+      }
+      const query = { email: email };
+      const user = await usersCollection.findOne(query);
+      const result = { blogger: user?.role === "blogger" };
+      res.send(result);
+    });
     // Blogs
     app.get("/blogs", async (req, res) => {
       const result = await blogsCollection.find().toArray();
       res.send(result);
     });
 
-    app.post('/blogs', async(req, res) =>{
-      const body = req.body
-      const result = await blogsCollection.insertOne(body)
-      res.send(result)
-    })
-    app.put('/blogs', async(req, res) =>{
-      const data = req.body
+    // Blogs
+    app.get("/blogs", async (req, res) => {
+      const result = await blogsCollection.find().toArray();
+      res.send(result);
+    });
+
+    app.post("/blogs", async (req, res) => {
+      const body = req.body;
+      const result = await blogsCollection.insertOne(body);
+      res.send(result);
+    });
+    app.put("/blogs", async (req, res) => {
+      const data = req.body;
       console.log(data);
-      if(data?.status === 'approved'){
+      if (data?.status === "approved") {
         const filter = { _id: new ObjectId(data.blogId) };
         const updateDoc = {
           $set: { status: data.status },
         };
-    
+
         const result = await blogsCollection.updateOne(filter, updateDoc);
-        res.send(result)
-      } else if(data?.status === "reject"){
-        
+        res.send(result);
+      } else if (data?.status === "reject") {
         const filter = { _id: new ObjectId(data.blogId) };
         const updateDoc = {
-          $set: { status: data.status,rejectReason: data.rejectReason },
+          $set: { status: data.status, rejectReason: data.rejectReason },
         };
         const result = await blogsCollection.updateOne(filter, updateDoc);
-        res.send(result)
-      }
-      else{
+        res.send(result);
+      } else {
         const filter = { _id: new ObjectId(data.id) };
         const blog = await blogsCollection.findOne(filter);
         const alreadyLiked = blog.like?.email.includes(data.email);
-       
+
         let updateDoc;
         if (alreadyLiked) {
           // If the user has already liked, unlike it (decrement count, remove email)
           updateDoc = {
-            $inc: { 'like.count': -1 }, // Decrease the like count
-            $pull: { 'like.email': data.email }, // Remove the user's email from the array
+            $inc: { "like.count": -1 }, // Decrease the like count
+            $pull: { "like.email": data.email }, // Remove the user's email from the array
           };
         } else {
           // If the user hasn't liked it yet, like it (increment count, add email)
           updateDoc = {
-            $inc: { 'like.count': 1 }, // Increase the like count
-            $push: { 'like.email': data.email }, // Add the user's email to the array
+            $inc: { "like.count": 1 }, // Increase the like count
+            $push: { "like.email": data.email }, // Add the user's email to the array
           };
         }
         const result = await blogsCollection.updateOne(filter, updateDoc);
-        res.send(result)         
+        res.send(result);
       }
-      
-    })
+    });
 
     app.get("/bloggersBlog", async (req, res) => {
       const email = req.query.email;
@@ -214,45 +210,106 @@ app.get("/blogs", async (req, res) => {
       res.send(data);
     });
 
-
     // Comment
-    app.post('/comments', async (req, res) => {
+    app.post("/comments", async (req, res) => {
       const { blogId, comment } = req.body;
       try {
         // Check if a document with the same blogId already exists
-        const existingBlogComments = await commentsCollection.findOne({ blogId });
-    
+        const existingBlogComments = await commentsCollection.findOne({
+          blogId,
+        });
+
         if (existingBlogComments) {
           // If it exists, update the document by adding the new comment to the array
           const updateDoc = {
-            $push: { comments: { email: comment.email, comment: comment.text } }
+            $push: {
+              comments: {
+                id: new ObjectId(),
+                email: comment.email,
+                image: comment.image,
+                name: comment.name,
+                comment: comment.text,
+              },
+            },
           };
-    
+
           const result = await commentsCollection.updateOne(
             { blogId },
             updateDoc
           );
-          res.send({ message: 'Comment added to existing blog', result });
+          res.send({ message: "Comment added to existing blog", result });
         } else {
           // If it doesn't exist, create a new document
           const newCommentDocument = {
             blogId,
-            comments: [{ email: comment.email, comment: comment.text }]
+            comments: [
+              {
+                id: new ObjectId(),
+                email: comment.email,
+                image: comment.image,
+                name: comment.name,
+                comment: comment.text,
+              },
+            ],
           };
-    
+
           const result = await commentsCollection.insertOne(newCommentDocument);
-          res.send({ message: 'New comment document created', result });
+          res.send({ message: "New comment document created", result });
         }
       } catch (error) {
-        console.error('Error adding comment:', error);
-        res.status(500).send({ message: 'Internal Server Error' });
+        console.error("Error adding comment:", error);
+        res.status(500).send({ message: "Internal Server Error" });
       }
     });
 
-    app.get('/comments',async(req, res) =>{
-      const result = await commentsCollection.find().toArray()
-      res.send(result)
-    })
+    app.put("/comments", async (req, res) => {
+      const { blogId, id, comment } = req.body;
+      const commentId = new ObjectId(id);
+
+      try {
+        // Check if a document with the given blogId exists
+        const existingBlogComments = await commentsCollection.findOne({
+          blogId,
+        });
+        console.log(existingBlogComments);
+        if (existingBlogComments) {
+          // Check if the comment with the specified id exists
+          const commentExists = existingBlogComments.comments.find((c) =>
+            c.id.equals(commentId)
+          );
+          console.log(commentExists);
+          if (commentExists) {
+            // Update the specific comment by matching its id
+            const result = await commentsCollection.updateOne(
+              { blogId, "comments.id": commentId }, // Match the blogId and the specific comment id
+              {
+                $set: {
+                  "comments.$.comment": comment,
+                },
+              }
+            );
+
+            if (result.modifiedCount > 0) {
+              res.send({ message: "Comment updated successfully", result });
+            } else {
+              res.status(404).send({ message: "Comment not found" });
+            }
+          } else {
+            res.status(404).send({ message: "Comment ID not found" });
+          }
+        } else {
+          res.status(404).send({ message: "Blog ID not found" });
+        }
+      } catch (error) {
+        console.error("Error updating comment:", error);
+        res.status(500).send({ message: "Internal Server Error" });
+      }
+    });
+
+    app.get("/comments", async (req, res) => {
+      const result = await commentsCollection.find().toArray();
+      res.send(result);
+    });
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(

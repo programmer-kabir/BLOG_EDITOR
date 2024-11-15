@@ -182,14 +182,21 @@ app.get("/blogs", async (req, res) => {
         const filter = { _id: new ObjectId(data.id) };
         const blog = await blogsCollection.findOne(filter);
         const alreadyLiked = blog.like?.email.includes(data.email);
+       
+        let updateDoc;
         if (alreadyLiked) {
-          return res.status(400).send({ message: 'User has already liked this blog.' });
+          // If the user has already liked, unlike it (decrement count, remove email)
+          updateDoc = {
+            $inc: { 'like.count': -1 }, // Decrease the like count
+            $pull: { 'like.email': data.email }, // Remove the user's email from the array
+          };
+        } else {
+          // If the user hasn't liked it yet, like it (increment count, add email)
+          updateDoc = {
+            $inc: { 'like.count': 1 }, // Increase the like count
+            $push: { 'like.email': data.email }, // Add the user's email to the array
+          };
         }
-        
-        const updateDoc = {
-          $inc: { 'like.count': 1 }, // Increment the like count
-          $push: { 'like.email': data.email }, // Add the user's email to the email array
-        };
         const result = await blogsCollection.updateOne(filter, updateDoc);
         res.send(result)         
       }

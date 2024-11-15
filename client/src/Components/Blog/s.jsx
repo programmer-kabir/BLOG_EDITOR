@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { BsSlashLg } from "react-icons/bs";
@@ -23,78 +22,80 @@ import { fetchUsers } from "../../Pages/Redux/Users/userSlice";
 import { calculateMonthDifference } from "../DateFomate/DateFormate";
 import toast from "react-hot-toast";
 import { fetchComments } from "../../Pages/Redux/Comments/commentSlice";
-
 const DetailsBlog = () => {
   const { id } = useParams();
   const { user } = useAuth();
   const dispatch = useDispatch();
-  const { isBlogLoading, Blogs, isBlogError } = useSelector((state) => state.Blogs);
-  const { isUsersLoading, Users, isUsersError } = useSelector((state) => state.Users);
-  const { isCommentsLoading, Comments, isCommentsError } = useSelector((state) => state.Comments);
-
+  const { isBlogLoading, Blogs, isBlogError } = useSelector(
+    (state) => state.Blogs
+  );
+  const { isUsersLoading, Users, isUsersError } = useSelector(
+    (state) => state.Users
+  );
+  const { isCommentsLoading, Comments, isCommentsError } = useSelector(
+    (state) => state.Comments
+  );
+  // Dispatch fetchBlogs when the component mounts
   useEffect(() => {
     dispatch(fetchBlogs());
     dispatch(fetchUsers());
     dispatch(fetchComments());
   }, [dispatch]);
-
-  const currentBlog = Blogs?.find((blog) => blog._id === id) || null;
+console.log(Comments);
+  // Ensure Blogs is populated before trying to find a specific blog
+  const currentBlog =
+    Blogs && Blogs.length > 0 ? Blogs.find((blog) => blog._id === id) : null;
   const blogWriter = Users.find((user) => user?.email === currentBlog?.email);
+
   const monthDifference = calculateMonthDifference(currentBlog?.date);
 
   const [isCommentModal, setIsCommentModal] = useState(false);
-  const [comment, setComment] = useState("");
-  const [likeCount, setLikeCount] = useState(currentBlog?.like?.count);
-  console.log(likeCount);
-  const [hasLiked, setHasLiked] = useState(
-    currentBlog?.like?.email?.includes(user?.email)
-  );
-  // Update like count and user status on component mount
-  useEffect(() => {
-    setLikeCount(currentBlog?.like?.count || 0);
-    setHasLiked(currentBlog?.like?.email?.includes(user?.email));
-  }, [currentBlog]);
+  const [comment, setComment] = useState(''); // State to store comment value
 
   const toggleCommentModal = () => {
     setIsCommentModal(!isCommentModal);
   };
+  // Share
   const [isShareModal, setIsShareModal] = useState(false);
   const toggleShareModal = () => {
     setIsShareModal(!isShareModal);
   };
-  const handleLike = async () => {
+  if (isBlogLoading) {
+    return <Loader />;
+  }
+
+  if (isBlogError) {
+    return <Loader />;
+  }
+
+  if (!currentBlog) {
+    return <div>Blog not found</div>;
+  }
+  const handleLike = async (id) => {
     try {
+      // Prepare the updated like data
       const updatedData = {
-        id: currentBlog._id,
-        email: user.email,
+        id, // Blog ID
+        email: user.email, // User's email
       };
 
-      // Optimistically update like count
-      if (hasLiked) {
-        setLikeCount(likeCount - 1);
-        setHasLiked(false);
-      } else {
-        setLikeCount(likeCount + 1);
-        setHasLiked(true);
-      }
-
-      // Send request to backend
-      const response = await axios.put(`http://localhost:3000/blogs`, updatedData);
-
-      if (response.status === 200) {
-        toast.success(hasLiked ? "Blog unliked successfully" : "Blog liked successfully");
-      }
+      // Update the blog on the server
+      const response = await axios.put(
+        `http://localhost:3000/blogs`,
+        updatedData
+      );
+      // console.log("Blog liked successfully:", response.data);
+      // if (response.data.modifiedCount === 1) {
+      //   toast.success("Your likes added");
+      // }
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to update like status");
-      // Revert state changes if there's an error
-      setLikeCount(hasLiked ? likeCount + 1 : likeCount - 1);
-      setHasLiked(!hasLiked);
+      toast.error(error.response?.data?.message || error.message);
     }
   };
 
-  const handleComment = async (id) => {
-    if (comment.trim() === "") {
-      toast.error("Please enter a comment before submitting.");
+  const handleComment = async(id) => {
+    if (comment.trim() === '') {
+      toast.error('Please enter a comment before submitting.');
       return;
     }
     const commentData = {
@@ -105,61 +106,90 @@ const DetailsBlog = () => {
       },
     };
     try {
-      const response = await axios.post("http://localhost:3000/comments", commentData);
+      // Send a POST request to save the comment in the backend
+      const response= await axios.post('http://localhost:3000/comments', commentData);
+
       if (response.status === 200) {
-        toast.success("Comment added successfully!");
+        toast.success('Comment added successfully!');
       } else {
-        toast.error("Failed to add comment.");
+        toast.error('Failed to add comment.');
       }
     } catch (error) {
-      console.error("Error posting comment:", error);
-      toast.error("An error occurred while posting the comment.");
+      console.error('Error posting comment:', error);
+      toast.error('An error occurred while posting the comment.');
     }
 
-    setComment("");
+    // Reset the comment input field and close the modal
+    setComment('');
     setIsCommentModal(false);
   };
 
-  if (isBlogLoading) return <Loader />;
-  if (isBlogError || !currentBlog) return <div>Blog not found</div>;
-
+  const currentComment = Comments.filter(comment =>comment.blogId === currentBlog._id)
+  console.log(currentComment);
   return (
     <section className="px-5">
+      <div className="flex items-center pt-5 gap-1 text-sm">
+        <Link to="/" className="text-gray-500">
+          Home
+        </Link>
+        <BsSlashLg />
+        <Link to="/blogs" className="text-gray-500">
+          Blogs
+        </Link>
+        <BsSlashLg />
+        <p>Details</p>
+      </div>
+
       <div className=" border mt-7 rounded">
-        <img src={currentBlog?.photo} alt={currentBlog?.title} className="w-full h-[500px] object-fill rounded-t" />
+        {/* Ensure the image is displayed */}
+        <img
+          src={currentBlog?.photo}
+          alt={currentBlog?.title}
+          className="w-full h-[500px] object-fill rounded-t"
+        />
+        {/* Header */}
         <div className="pt-5 flex items-center justify-between border-b px-5 py-2">
           <div className="flex items-center gap-2  px-2">
-            <img className="h-9 w-9 rounded-full" src={blogWriter?.photo} alt="" />
+            <img
+              className="h-9 w-9 rounded-full"
+              src={blogWriter?.photo}
+              alt=""
+            />
             <p className="text-sm font-medium">{blogWriter?.name}</p>
           </div>
           <p className="text-sm px-2 text-gray-700">
-            {monthDifference === 0 ? "This month" : `${monthDifference} month${monthDifference > 1 ? "s" : ""} ago`}
+            {" "}
+            {monthDifference === 0
+              ? "This month"
+              : `${monthDifference} month${monthDifference > 1 ? "s" : ""} ago`}
           </p>
         </div>
-
+        {/* Content */}
         <div className="space-y-5 px-5">
-          <h2 className="md:text-md text-xl font-semibold">{currentBlog?.title}</h2>
-          <p className="text-xl font-semibold">Category: <span className="text-base font-normal">{currentBlog.category}</span></p>
-          <p dangerouslySetInnerHTML={{ __html: currentBlog?.content }}></p>
+          <h2 className="md:text-md text-xl   font-semibold">
+            {currentBlog?.title}
+          </h2>
+          <p className="text-xl font-semibold">
+            Category:{" "}
+            <span className="text-base font-normal">
+              {currentBlog.category}
+            </span>
+          </p>
+          <div />
+          <p
+            className=" border-b pb-5"
+            dangerouslySetInnerHTML={{ __html: currentBlog?.content }}
+          ></p>
         </div>
-
-        {/* <div className="my-4 px-5 flex items-center justify-center gap-4">
-          <button onClick={handleLike} className="flex items-center gap-1">
-            <BiSolidLike size={22} />
-            {likeCount}
-          </button>
-          <button onClick={toggleCommentModal} className="flex items-center gap-1">
-            <FaComment size={22} /> Comment
-          </button>
-        </div> */}
-         <div className="my-4 px-5 flex items-center justify-center gap-4">
+        {/* Button */}
+        <div className="my-4 px-5 flex items-center justify-center gap-4">
           {/*  */}
 
           <button
             onClick={() => handleLike(currentBlog._id)}
             className="flex items-center gap-1"
           >
-            <BiSolidLike size={22} />  {likeCount}
+            <BiSolidLike size={22} /> {currentBlog.like.count}
           </button>
           <button
             onClick={toggleCommentModal}
@@ -224,22 +254,6 @@ const DetailsBlog = () => {
           )}
         </div>
       </div>
-
-      {isCommentModal && (
-        <div className="fixed top-1/2 w-[450px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-6 bg-white rounded-lg shadow-lg z-50">
-          <h2 className="text-xl font-semibold mb-3">Comment</h2>
-          <input
-            type="text"
-            className="outline-none border border-gray-300 px-4 rounded py-2 w-full"
-            placeholder="Enter Your Comment"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
-          <button className="mt-2 bg-blue-500 text-white px-4 py-2 rounded" onClick={() => handleComment(currentBlog._id)}>
-            Submit
-          </button>
-        </div>
-      )}
     </section>
   );
 };

@@ -6,7 +6,7 @@ import { fetchBlogs } from "../../Pages/Redux/Blogs/blogSlice";
 import BlogCard from "../Design/BlogCard";
 const Blog = () => {
   const { name } = useParams();
-  console.log(name);
+  // console.log(name);
  
   const dispatch = useDispatch();
   const { isBlogLoading, Blogs, isBlogError } = useSelector(
@@ -20,7 +20,7 @@ const updateData = filteredBlogs.filter(sa => sa.category === name)
   // console.log(filteredBlogs);
   const blogsToDisplay = name ? updateData : filteredBlogs;
 
-console.log(blogsToDisplay);
+// console.log(blogsToDisplay);
   //  console.log(data);
   return (
     <section className="px-5">

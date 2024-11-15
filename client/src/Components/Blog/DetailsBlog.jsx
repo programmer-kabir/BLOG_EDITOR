@@ -27,11 +27,16 @@ import ShowComments from "../Dashboard/ShowComments/ShowComments";
 const DetailsBlog = () => {
   const { id } = useParams();
   const { user } = useAuth();
-  console.log(user);
+  // console.log(user);
   const dispatch = useDispatch();
   const { isBlogLoading, Blogs, isBlogError } = useSelector(
     (state) => state.Blogs
   );
+
+  const { isCommentsLoading, Comments, isCommentsError } = useSelector(
+    (state) => state.Comments
+  );
+
   const { isUsersLoading, Users, isUsersError } = useSelector(
     (state) => state.Users
   );
@@ -43,13 +48,16 @@ const DetailsBlog = () => {
   }, [dispatch]);
 
   const currentBlog = Blogs?.find((blog) => blog._id === id) || null;
+  const currentComments = Comments.find(
+    (comment) => comment.blogId === currentBlog._id
+  );
+  // console.log(currentComments?.comments.length);
   const blogWriter = Users.find((user) => user?.email === currentBlog?.email);
   const monthDifference = calculateMonthDifference(currentBlog?.date);
-
   const [isCommentModal, setIsCommentModal] = useState(false);
   const [comment, setComment] = useState("");
   const [likeCount, setLikeCount] = useState(currentBlog?.like?.count);
-  // console.log(likeCount);
+
   const [hasLiked, setHasLiked] = useState(
     currentBlog?.like?.email?.includes(user?.email)
   );
@@ -163,11 +171,11 @@ const DetailsBlog = () => {
           </p>
         </div>
 
-        <div className="space-y-5 px-5">
-          <h2 className="md:text-md text-xl font-semibold">
+        <div className="space-y-5 px-5 pt-5">
+          <h2 className="md:text-2xl text-xl font-semibold">
             {currentBlog?.title}
           </h2>
-          <p className="text-xl font-semibold">
+          <p className="text-base font-semibold">
             Category:{" "}
             <span className="text-base font-normal">
               {currentBlog.category}
@@ -190,7 +198,7 @@ const DetailsBlog = () => {
             onClick={toggleCommentModal}
             className="flex items-center gap-1"
           >
-            <FaComment size={22} /> {currentBlog.like.count}
+            <FaComment size={22} /> {currentComments?.comments.length}
           </button>
           <button onClick={toggleShareModal}>
             <BiSolidShareAlt size={25} color="#000" />

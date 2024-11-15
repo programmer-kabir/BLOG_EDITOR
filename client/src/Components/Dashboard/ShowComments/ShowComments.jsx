@@ -14,7 +14,7 @@ const ShowComments = ({ id }) => {
 
   useEffect(() => {
     dispatch(fetchComments());
-  }, [dispatch,Comments]);
+  }, [dispatch, Comments]);
   const currentComments = Comments.find((comment) => comment.blogId === id);
   const [isCommentModal, setIsCommentModal] = useState(false);
   const [isComment, setIsComment] = useState("false");
@@ -22,21 +22,40 @@ const ShowComments = ({ id }) => {
   const toggleCommentModal = () => {
     setIsCommentModal(!isCommentModal);
   };
- const handleCommentEdit = id =>{
-  const data = {
-    blogId:currentComments.blogId,
-    id,
-    comment:isComment
-  }
-  console.log(data);
-  axios.put("http://localhost:3000/comments",data)
-  .then(response =>{
-    console.log(response.data);
-    toast.success(response?.data?.message)
-  })
-setIsComment("")
-  setIsCommentModal(false);
- }
+  const handleCommentEdit = (id) => {
+    const data = {
+      blogId: currentComments.blogId,
+      id,
+      comment: isComment,
+    };
+    // console.log(data);
+    axios.put("http://localhost:3000/comments", data).then((response) => {
+      // console.log(response.data);
+      toast.success(response?.data?.message);
+    });
+    setIsComment("");
+    setIsCommentModal(false);
+  };
+
+  const handleCommentDelete = (id) => {
+    // console.log(id);
+    const data = {
+      blogId: currentComments.blogId,
+      id, // The comment ID you want to delete
+    };
+
+    axios
+      .delete("http://localhost:3000/comments", { data })
+      .then((response) => {
+        // console.log(response.data);
+        toast.success(response?.data?.message)
+      })
+      .catch((error) => {
+        toast.error(error)
+        // console.error("Error deleting comment:", error);
+      });
+  };
+
   return (
     <div className="px-5 pt-5">
       {currentComments?.comments?.map((comment) => (
@@ -57,15 +76,25 @@ setIsComment("")
               </p>
               {comment.email === user.email && (
                 <div className="space-x-3">
-                  <button onClick={toggleCommentModal} className="whitespace-nowrap rounded-md text-sm  ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                  <button
+                    onClick={toggleCommentModal}
+                    className="whitespace-nowrap rounded-md text-sm  ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+                  >
                     Edit
                   </button>
-                  <button className="whitespace-nowrap rounded-md text-sm  ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">Delete</button>
+                  <button
+                    onClick={() =>
+                      handleCommentDelete(comment.id)
+                    }
+                    className="whitespace-nowrap rounded-md text-sm  ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+                  >
+                    Delete
+                  </button>
                 </div>
               )}
             </div>
           </div>
-          {(isCommentModal) && (
+          {isCommentModal && (
             <div
               className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
               onClick={() => {
@@ -98,8 +127,6 @@ setIsComment("")
           )}
         </div>
       ))}
-        
-       
     </div>
   );
 };

@@ -305,7 +305,59 @@ async function run() {
         res.status(500).send({ message: "Internal Server Error" });
       }
     });
+//     app.delete("/comments", async (req, res) => {
+//       const { blogId, id } = req.body; // Get blogId and comment id from request body
+// console.log(blogId,id);
+//       try {
+//         // Delete the specific comment from the comments array using $pull
+//         const result = await commentsCollection.updateOne(
+//           { blogId }, // Find the document with the matching blogId
+//           {
+//             $pull: {
+//               comments: { id: id }, // Remove the comment that matches this id
+//             },
+//           }
+//         );
 
+//         if (result.modifiedCount > 0) {
+//           res.send({ message: "Comment deleted successfully", result });
+//         } else {
+//           res.status(404).send({ message: "Comment or Blog ID not found" });
+//         }
+//       } catch (error) {
+//         console.error("Error deleting comment:", error);
+//         res.status(500).send({ message: "Internal Server Error" });
+//       }
+//     });
+
+app.delete("/comments", async (req, res) => {
+  const { blogId, id } = req.body; // Get blogId and comment id from request body
+  console.log("Blog ID:", blogId, "Comment ID:", id);
+
+  try {
+    // Convert the comment id to ObjectId
+    const commentObjectId = new ObjectId(id);
+
+    // Delete the specific comment from the comments array using $pull
+    const result = await commentsCollection.updateOne(
+      { blogId }, // Find the document with the matching blogId
+      {
+        $pull: {
+          comments: { id: commentObjectId }, // Remove the comment that matches this ObjectId
+        },
+      }
+    );
+
+    if (result.modifiedCount > 0) {
+      res.send({ message: "Comment deleted successfully", result });
+    } else {
+      res.status(404).send({ message: "Comment or Blog ID not found" });
+    }
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+});
     app.get("/comments", async (req, res) => {
       const result = await commentsCollection.find().toArray();
       res.send(result);

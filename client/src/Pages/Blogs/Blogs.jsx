@@ -14,6 +14,8 @@ import { fetchBlogs } from "../Redux/Blogs/blogSlice";
 import BlogCard from "../../Components/Design/BlogCard";
 import useAdmin from "../../Components/Hooks/useAdmin";
 import useBlogger from "../../Components/Hooks/useBlogger";
+import useAuth from "../../Components/Hooks/useAuth";
+import { MdLogout } from "react-icons/md";
 
 const CategoryData = [
   { title: "programming", icon: <IoIosCode />, link: "programming" },
@@ -28,9 +30,10 @@ const CategoryData = [
 ];
 
 const Blogs = () => {
-  const {name} = useParams()
+  const { name } = useParams();
   const [isAdmin] = useAdmin();
   const [isBlogger] = useBlogger();
+  const {user,logOut} = useAuth()
   const [activeIndex, setActiveIndex] = useState(null);
   const [categoryCounts, setCategoryCounts] = useState({});
   const dispatch = useDispatch();
@@ -39,8 +42,8 @@ const Blogs = () => {
   );
   useEffect(() => {
     dispatch(fetchBlogs());
-  }, [dispatch,name]);
-  const filteredBlogs = Blogs.filter(blog =>blog.status !== "reject")
+  }, [dispatch, name]);
+  const filteredBlogs = Blogs.filter((blog) => blog.status === "approved");
   // console.log(filteredBlogs);
   useEffect(() => {
     const counts = {};
@@ -54,13 +57,18 @@ const Blogs = () => {
     setCategoryCounts(counts); // Store the counts in state
   }, [Blogs]);
   // Filter blogs based on category or show all if no category is selected
-
+  const handleLogOut = () => {
+    logOut();
+  };
   return (
     <section className="flex items-start">
       {/* Left Side (Fixed Sidebar) */}
       <div className="fixed top-0 left-0 pr-5 w-[20%] h-screen border-r bg-white z-10">
         {/* Logo */}
-        <Link to='/' className="md:flex pl-5 h-14 gap-1 hidden items-center justify-start border-b">
+        <Link
+          to="/"
+          className="md:flex pl-5 h-14 gap-1 hidden items-center justify-start border-b"
+        >
           <img className="h-[35px]" src={logo} alt="Logo" />
           <h2 className="text-black text-[17px] font-semibold">Blog Editor</h2>
         </Link>
@@ -96,26 +104,13 @@ const Blogs = () => {
 
         {/* Home and Bookmark Buttons */}
         <div className="mx-4 mr-4">
-          <button className="text-[17px] flex px-2 py-2 items-center justify-center gap-2 transition-all group hover:text-[#F50400]">
+          <Link
+            to={"/"}
+            className="text-[17px] flex px-2 py-2 items-center  gap-2 transition-all group hover:text-[#F50400]"
+          >
             <IoHomeOutline />
             Home
-          </button>
-          <button
-            onClick={() => setActiveIndex("bookmark")}
-            className={`text-[17px] flex px-2 py-2 items-center justify-between w-full gap-2 transition-all group ${
-              activeIndex === "bookmark"
-                ? "text-[#F50400] border-r-4 rounded-l-md pr-3 border-[#F50400] bg-gray-100"
-                : "text-gray-600"
-            } hover:text-[#F50400]`}
-          >
-            <div className="flex items-center gap-2">
-              <LuBookMarked />
-              Bookmark
-            </div>
-            <p className="ml-auto bg-[#F50400] rounded-full w-3 h-3 flex items-center justify-center p-3 text-white">
-              5
-            </p>
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -150,46 +145,50 @@ const Blogs = () => {
               </svg>
             </button>
           </div>
-          
+
           <div className="text-white flex items-center gap-4">
-          <div className="md:flex text-black gap-2 hidden ">
-         
-          
-         
-          {
-            isAdmin &&  <NavLink
-            to="/dashboard/admin"
-            className={({ isActive }) =>
-              isActive
-                ? "px-5 py-2 text-[#F50400]   rounded-sm bg-[#f5f5f5]"
-                : "px-5 py-2 text-[#737373] hover:text-[#F50400]"
-            }
-          >
-            Dashboard
-          </NavLink>
-          }
-          {
-            isBlogger &&  <NavLink
-            to="/dashboard/blogger"
-            className={({ isActive }) =>
-              isActive
-                ? "px-5 py-2 text-[#F50400]   rounded-sm bg-[#f5f5f5]"
-                : "px-5 py-2 text-[#737373] hover:text-[#F50400]"
-            }
-          >
-            Dashboard
-          </NavLink>
-          }
-         
-         
-        </div>
-            <button className="flex rounded items-center justify-center gap-1 font-medium bg-[#F50400] px-5 py-2 group">
-              Login{" "}
-              <LuLogIn
-                className="transform transition-transform duration-300 ease-in-out group-hover:translate-x-2"
-                size={21}
-              />
+            <div className="md:flex text-black gap-2 hidden ">
+              {isAdmin && (
+                <NavLink
+                  to="/dashboard/admin"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "px-4 py-2 text-[#F50400]   border rounded-md bg-[#f5f5f5] "
+                      : "px-4 py-2 text-[#737373] hover:text-[#F50400] border rounded-md "
+                  }
+                >
+                  Dashboard
+                </NavLink>
+              )}
+              {isBlogger && (
+                <NavLink
+                  to="/dashboard/blogger"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "px-4 py-2 text-[#F50400]   bg-[#f5f5f5] border rounded-md"
+                      : "px-4 py-2 text-[#737373] hover:text-[#F50400] border rounded-md"
+                  }
+                >
+                  Dashboard
+                </NavLink>
+              )}
+            </div>
+            <div>
+          {user ? (
+            <button onClick={handleLogOut} to="/signin" className="text-white">
+              <button className="flex items-center justify-center gap-1 rounded font-medium bg-[#F50400] px-5 py-2 text-white transition-all duration-300 ease-in-out group">
+                Logout{" "}
+                <MdLogout   className="transform transition-transform duration-300 ease-in-out group-hover:translate-x-2" size={21} />
+              </button>
             </button>
+          ) : (
+            <Link to="/signin" className="text-white">
+              <button className="flex items-center justify-center gap-1 rounded font-medium bg-[#F50400] px-5 py-2 text-white transition-all duration-300 ease-in-out group">
+                Login <LuLogIn   className="transform transition-transform duration-300 ease-in-out group-hover:translate-x-2" size={21} />
+              </button>
+            </Link>
+          )}
+        </div>
           </div>
         </div>
         {/* Blog List */}

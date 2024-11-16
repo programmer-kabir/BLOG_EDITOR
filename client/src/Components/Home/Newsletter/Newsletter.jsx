@@ -4,10 +4,10 @@ const Newsletter = () => {
   return (
     <section className="md:flex items-center justify-between gap-10 pt-10">
       <div className="md:w-1/2">
-        <h1 className="text-2xl text-[#000000] font-bold  sm:text-3xl">
+        <h1 className="text-2xl text-[#000000] font-bold  sm:text-[26px]">
           Subscribe to our newsletter
         </h1>
-        <p className="mt-4 text-lg  text-[#737373]">
+        <p className="mt-4 text-base text-justify   text-[#1F2937]">
           Stay updated with the latest articles and discussions on BlogPlex. Get
           exclusive content, insights, and engage with our community. No spam,
           just quality content.
@@ -39,15 +39,21 @@ const Newsletter = () => {
         <div className="flex items-start gap-3">
           <img src="https://i.ibb.co.com/dp6Yqv6/application.png" alt="" />
           <div>
-            <h2 className="text-lg font-medium text-gray-900">Weekly articles</h2>
-            <p className="mt-2 text-base text-gray-500">Discover new articles and discussions every week on BlogPlex. Engage with a vibrant community.</p>
+            <h2 className="text-lg font-medium text-black">Weekly articles</h2>
+            <p className="mt-2 text-[15px] text-[#1F2937]">
+              Discover new articles and discussions every week on BlogPlex.
+              Engage with a vibrant community.
+            </p>
           </div>
         </div>
         <div className="flex items-start gap-3 pt-5 md:pt-0">
           <img src="https://i.ibb.co.com/LNvkcSC/spam.png" alt="" />
           <div>
             <h2 className="text-lg font-medium text-gray-900">No spam</h2>
-            <p className="mt-2 text-base text-gray-500">We value your privacy and time. Receive only the content you love without any spam.</p>
+            <p className="mt-2 text-[15px] text-[#1F2937]">
+              We value your privacy and time. Receive only the content you love
+              without any spam.
+            </p>
           </div>
         </div>
       </div>

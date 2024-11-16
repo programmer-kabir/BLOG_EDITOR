@@ -50,18 +50,34 @@ const Footer = () => {
           {/* meddle Section */}
           <div className="w-full lg:w-1/5">
             <h4 className="text-black text-[17px] font-semibold">
-            Importance link
-
+              Importance link
             </h4>
-           
-            
+
             <div className=" mb-6 flex flex-col text-lg mt-2">
-              
-              <Link className="text-[15px] [#1F2937] hover:underline">About Us</Link>
-              <Link className="text-[15px] [#1F2937] hover:underline">Contact Us</Link>
-              <Link className="text-[15px] [#1F2937] hover:underline">Terms & Conditions</Link>
-              <Link className="text-[15px] [#1F2937] hover:underline">FAQs</Link>
-            
+              <Link
+                to="/about-us"
+                className="text-[15px] [#1F2937] hover:underline"
+              >
+                About Us
+              </Link>
+              <Link
+                to="/contact-us"
+                className="text-[15px] [#1F2937] hover:underline"
+              >
+                Contact Us
+              </Link>
+              <Link
+                to="/trems-conditions"
+                className="text-[15px] [#1F2937] hover:underline"
+              >
+                Terms & Conditions
+              </Link>
+              <Link
+                to="/faqs"
+                className="text-[15px] [#1F2937] hover:underline"
+              >
+                FAQs
+              </Link>
             </div>
           </div>
 

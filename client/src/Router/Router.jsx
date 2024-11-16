@@ -19,6 +19,10 @@ import ShowBlog from "../Pages/Dashboard/Blogger/ShowBlog";
 import AllBloggers from "../Pages/Dashboard/Admin/AllBloggers";
 import AllUser from "../Pages/Dashboard/Admin/AllUser";
 import AdminBlogs from "../Pages/Dashboard/Admin/AdminBlogs";
+import AboutUs from "../Pages/FooterPages/AboutUs";
+import ContactUs from "../Pages/FooterPages/ContactUs";
+import Terms from "../Pages/FooterPages/Terms";
+import FAQs from "../Pages/FooterPages/FAQs";
 
 const router = createBrowserRouter([
   {
@@ -39,8 +43,20 @@ const router = createBrowserRouter([
         element: <Signup />,
       },
       {
-        path: "/signin",
-        element: <Signin />,
+        path: "/about-us",
+        element: <AboutUs />,
+      },
+      {
+        path: "/contact-us",
+        element: <ContactUs />,
+      },
+      {
+        path: "/trems-conditions",
+        element: <Terms />,
+      },
+      {
+        path: "/faqs",
+        element: <FAQs />,
       },
     ],
   },

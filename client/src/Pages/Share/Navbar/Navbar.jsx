@@ -40,7 +40,7 @@ console.log(isBlogger);
             className={({ isActive }) =>
               isActive
                 ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
-                : "px-5 py-2 text-[#737373] hover:text-[#F50400]"
+                : "px-5 py-2 text-[#1F2937] hover:text-[#F50400]"
             }
           >
             Home
@@ -50,7 +50,7 @@ console.log(isBlogger);
             className={({ isActive }) =>
               isActive
                 ? "px-5 py-2  text-[#F50400] rounded-sm bg-[#f5f5f5]"
-                : "px-5 py-2 text-[#737373] hover:text-[#F50400]"
+                : "px-5 py-2 text-[#1F2937] hover:text-[#F50400]"
             }
           >
             Blogs
@@ -60,7 +60,7 @@ console.log(isBlogger);
             className={({ isActive }) =>
               isActive
                 ? "px-5 py-2 text-[#F50400]   rounded-sm bg-[#f5f5f5]"
-                : "px-5 py-2 text-[#737373] hover:text-[#F50400]"
+                : "px-5 py-2 text-[#1F2937] hover:text-[#F50400]"
             }
           >
             About Us
@@ -71,7 +71,7 @@ console.log(isBlogger);
             className={({ isActive }) =>
               isActive
                 ? "px-5 py-2 text-[#F50400]   rounded-sm bg-[#f5f5f5]"
-                : "px-5 py-2 text-[#737373] hover:text-[#F50400]"
+                : "px-5 py-2 text-[#1F2937] hover:text-[#F50400]"
             }
           >
             Dashboard
@@ -83,7 +83,7 @@ console.log(isBlogger);
             className={({ isActive }) =>
               isActive
                 ? "px-5 py-2 text-[#F50400]   rounded-sm bg-[#f5f5f5]"
-                : "px-5 py-2 text-[#737373] hover:text-[#F50400]"
+                : "px-5 py-2 text-[#1F2937] hover:text-[#F50400]"
             }
           >
             Dashboard

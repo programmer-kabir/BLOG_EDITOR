@@ -29,10 +29,10 @@ const CompanyInfo = () => {
   return (
     <section className="md:flex pt-10 gap-10">
       <div className="md:w-1/2">
-        <h1 className="text-2xl text-[#000000] font-bold  sm:text-3xl">
+        <h1 className="text-2xl text-[#000000] font-bold  sm:text-[26px]">
           Work with Blog Editor
         </h1>
-        <p className="mt-4 text-lg  text-[#737373]">
+        <p className="mt-4 text-base  text-justify text-[#1F2937]">
           At BlogPlex, we are committed to creating a vibrant community of
           content creators and readers. Join our team to contribute to a
           platform that reaches thousands of visitors daily, and help shape the
@@ -55,7 +55,7 @@ const CompanyInfo = () => {
               <CountUp start={0} end={25} duration={1} suffix=" +" />
             )}
           </h2>
-          <p className="mt-2 text-base text-gray-500">Total Employees</p>
+          <p className="mt-2 text-base text-[#1F2937] font-mono">Total Employees</p>
         </div>
 
         <div
@@ -64,15 +64,15 @@ const CompanyInfo = () => {
         >
           <img
             className="group-hover:scale-90 transition-all duration-75"
-             src="https://i.ibb.co.com/fYZmZrn/audience.png"
+            src="https://i.ibb.co.com/fYZmZrn/audience.png"
             alt=""
           />
-          <h2 className="mt-4 text-2xl font-semibold">
+          <h2 className="mt-4  text-2xl font-semibold">
             {isVisible && (
               <CountUp start={0} end={1000} duration={3} suffix=" +" />
             )}
           </h2>
-          <p className="mt-2 text-base text-gray-500">Total Visitors</p>
+          <p className="mt-2 text-base text-[#1F2937] font-mono">Total Visitors</p>
         </div>
 
         <div
@@ -89,10 +89,8 @@ const CompanyInfo = () => {
               <CountUp start={0} end={3000} duration={4} suffix=" +" />
             )}
           </h2>
-          <p className="mt-2 text-base text-gray-500">Total Subscribers</p>
+          <p className="mt-2 text-base text-[#1F2937] font-mono">Total Subscribers</p>
         </div>
-       
-       
       </div>
     </section>
   );

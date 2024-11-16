@@ -29,10 +29,10 @@ const CompanyInfo = () => {
   return (
     <section className="md:flex pt-10 gap-10">
       <div className="md:w-1/2">
-        <h1 className="text-3xl font-bold  sm:text-4xl">
+        <h1 className="text-2xl text-[#000000] font-bold  sm:text-3xl">
           Work with Blog Editor
         </h1>
-        <p className="mt-4 text-lg  text-gray-700">
+        <p className="mt-4 text-lg  text-[#737373]">
           At BlogPlex, we are committed to creating a vibrant community of
           content creators and readers. Join our team to contribute to a
           platform that reaches thousands of visitors daily, and help shape the

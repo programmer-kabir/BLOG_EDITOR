@@ -14,7 +14,9 @@ const Home = () => {
         <InfoCard />
       <BlogCategory />
       <PopularBlog />
-      <Newsletter />
+     <div className="mt-7 mb-10">
+     <Newsletter />
+     </div>
       <CompanyInfo />
       </div>
     </div>

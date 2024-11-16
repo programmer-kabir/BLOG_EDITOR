@@ -4,10 +4,10 @@ const Newsletter = () => {
   return (
     <section className="md:flex items-center justify-between gap-10 pt-10">
       <div className="md:w-1/2">
-        <h1 className="text-3xl font-bold  sm:text-4xl">
+        <h1 className="text-2xl text-[#000000] font-bold  sm:text-3xl">
           Subscribe to our newsletter
         </h1>
-        <p className="mt-4 text-lg  text-gray-700">
+        <p className="mt-4 text-lg  text-[#737373]">
           Stay updated with the latest articles and discussions on BlogPlex. Get
           exclusive content, insights, and engage with our community. No spam,
           just quality content.

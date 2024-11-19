@@ -56,7 +56,7 @@ console.log(isBlogger);
             Blogs
           </NavLink>
           <NavLink
-            to="/about"
+            to="/about-us"
             className={({ isActive }) =>
               isActive
                 ? "px-5 py-2 text-[#F50400]   rounded-sm bg-[#f5f5f5]"

@@ -2,7 +2,9 @@ import React from 'react'
 
 const ContactUs = () => {
   return (
-    <div>ContactUs</div>
+    <section className='w-[90%] mx-auto py-8'>
+      
+    </section>
   )
 }
 

@@ -26,6 +26,7 @@ import ShowComments from "../Dashboard/ShowComments/ShowComments";
 
 const DetailsBlog = () => {
   const { id } = useParams();
+  // console.log(id);
   const { user } = useAuth();
   // console.log(user);
   const dispatch = useDispatch();
@@ -51,6 +52,7 @@ const DetailsBlog = () => {
   const currentComments = Comments.find(
     (comment) => comment.blogId === currentBlog._id
   );
+  console.log(currentBlog);
   // console.log(currentComments?.comments.length);
   const blogWriter = Users.find((user) => user?.email === currentBlog?.email);
   const monthDifference = calculateMonthDifference(currentBlog?.date);
@@ -151,7 +153,6 @@ const DetailsBlog = () => {
   };
 
   if (isBlogLoading) return <Loader />;
-  if (isBlogError || !currentBlog) return <div>Blog not found</div>;
 
   // Copy link
   const baseUrl = "http://localhost:5173/blogs/details/";

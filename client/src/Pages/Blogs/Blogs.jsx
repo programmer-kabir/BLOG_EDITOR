@@ -5,7 +5,7 @@ import { GiProcessor } from "react-icons/gi";
 import { TfiWorld } from "react-icons/tfi";
 import { IoBicycleOutline, IoHomeOutline } from "react-icons/io5";
 import { RiGraduationCapLine } from "react-icons/ri";
-import { FaRegLifeRing } from "react-icons/fa6";
+import { FaBarsStaggered, FaPlus, FaRegLifeRing } from "react-icons/fa6";
 import { PiBowlFoodLight, PiDressThin } from "react-icons/pi";
 import { LuBookMarked, LuLogIn } from "react-icons/lu";
 import { Link, NavLink, Outlet, useParams } from "react-router-dom";
@@ -60,10 +60,14 @@ const Blogs = () => {
   const handleLogOut = () => {
     logOut();
   };
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const toggleSidebar = () => {
+    setIsNavOpen(!isNavOpen);
+  };
   return (
     <section className="flex items-start">
       {/* Left Side (Fixed Sidebar) */}
-      <div className="fixed top-0 left-0 pr-5 w-[20%] h-screen border-r bg-white z-10">
+      <div className="fixed hidden md:flex flex-col top-0 left-0 pr-5 md:w-[20%] h-screen border-r bg-white z-10">
         {/* Logo */}
         <Link
           to="/"
@@ -115,10 +119,10 @@ const Blogs = () => {
       </div>
 
       {/* Right Side */}
-      <div className="w-[80%] ml-[20%] ">
-        {/* Header */}
-        <div className="h-14 px-5 border-b flex items-center justify-between">
-          <div className="relative">
+      <div className="md:w-[80%] w-full md:ml-[20%] ">
+        {/* md Header */}
+        <div className="h-14 hidden px-5 border-b md:flex items-center justify-between">
+          <div className="relative ">
             <input
               className="bg-white w-full pr-11 h-10 pl-8 py-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded transition duration-200 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md"
               placeholder="Search blogs..."
@@ -191,6 +195,61 @@ const Blogs = () => {
         </div>
           </div>
         </div>
+        {/* Small Hieader */}
+        <div className="h-14 flex px-5 gap-3 border-b  md:hidden items-center justify-between">
+        <div
+          onClick={toggleSidebar}
+          className="bg-[#F50400] md:hidden px-3 py-1 rounded-md"
+        >
+          <FaBarsStaggered color="#fff " className="bg-[#F50400]" size={22} />
+        </div>
+
+          <div className="text-white flex items-center gap-4">
+            <div className="flex text-black gap-2  ">
+              {isAdmin && (
+                <NavLink
+                  to="/dashboard/admin"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "px-3 py-1 text-[#F50400]   border rounded-md bg-[#f5f5f5] "
+                      : "px-3 py-1 text-[#737373] hover:text-[#F50400] border rounded-md "
+                  }
+                >
+                  Dashboard
+                </NavLink>
+              )}
+              {isBlogger && (
+                <NavLink
+                  to="/dashboard/blogger"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "px-3 py-1 text-[#F50400]   bg-[#f5f5f5] border rounded-md"
+                      : "px-3 py-1 text-[#737373] hover:text-[#F50400] border rounded-md"
+                  }
+                >
+                  Dashboard
+                </NavLink>
+              )}
+            </div>
+            <div>
+          {user ? (
+            <button onClick={handleLogOut} to="/signin" className="text-white">
+              <button className="flex items-center justify-center gap-1 rounded font-medium bg-[#F50400] px-3 py-1 text-white transition-all duration-300 ease-in-out group">
+                Logout{" "}
+                <MdLogout   className="transform transition-transform duration-300 ease-in-out group-hover:translate-x-2" size={21} />
+              </button>
+            </button>
+          ) : (
+            <Link to="/signin" className="text-white">
+              <button className="flex items-center justify-center gap-1 rounded font-medium bg-[#F50400] px-3 py-1 text-white transition-all duration-300 ease-in-out group">
+                Login <LuLogIn   className="transform transition-transform duration-300 ease-in-out group-hover:translate-x-2" size={21} />
+              </button>
+            </Link>
+          )}
+        </div>
+          </div>
+        </div>
+        
         {/* Blog List */}
         {/* <div className="grid lg:grid-cols-3 gap-7 pt-7 px-5">
           {isBlogLoading && <p>Loading...</p>}
@@ -200,6 +259,89 @@ const Blogs = () => {
           ))}
         </div> */}
         <Outlet />
+      </div>
+      <div className="flex justify-end">
+        <div
+          className={`fixed text-white top-0 bottom-0 flex justify-end left-0 right-0 bg-black bg-opacity-75 z-50 transition-opacity duration-500 ease-in-out ${
+            isNavOpen
+              ? "opacity-100  transition-opacity duration-500 ease-out "
+              : "  opacity-0 pointer-events-none "
+          }`}
+        >
+          {/* Sidebar Container */}
+          <div
+            className={`w-9/12 border-l bg-white overflow-y-auto py-3  md:hidden h-screen transform transition-transform duration-500 ease-[cubic-bezier(0.7,0,0.3,1)] ${
+              isNavOpen ? "translate-x-0 " : "translate-x-full"
+            }`}
+          >
+            <div className="flex px-5 justify-between border-b border-gray-400 pb-4">
+              <div className="flex gap-2   items-center justify-center">
+                <img className="h-[35px]" src={logo} alt="Logo" />
+                <h2 className="text-black text-[17px] font-semibold">
+                  Blog Editor
+                </h2>
+              </div>
+              <button
+                className="border border-[#F50400] px-1 rounded-md"
+                onClick={toggleSidebar}
+              >
+                <FaPlus className="rotate-45" size={20} color="black" />
+              </button>
+            </div>
+            <div className="pt-2 px-2 ">
+            <div className=" top-0 left-0 pr-5 md:w-[20%] h-screen border-r bg-white z-10">
+        {/* Logo */}
+        <Link
+          to="/"
+          className="md:flex pl-5 h-14 gap-1 hidden items-center justify-start border-b"
+        >
+          <img className="h-[35px]" src={logo} alt="Logo" />
+          <h2 className="text-black text-[17px] font-semibold">Blog Editor</h2>
+        </Link>
+        {/* Blog Category Name */}
+        <div className="grid items-start py-2 lg:pl-4 gap-2 mr-5 border-b">
+          {CategoryData.map((data, index) => (
+            //  <Link to={`/category/${data.link}`} key={index}>
+            <Link
+              to={`category/${data.link}`}
+              key={index}
+              onClick={() => setActiveIndex(index)}
+              className={`text-[17px] flex px-2 py-2 items-center justify-start gap-2 transition-all ${
+                activeIndex === index
+                  ? "text-[#F50400] border-r-4 rounded-l-md pr-2 border-[#F50400] bg-gray-100"
+                  : "text-gray-600"
+              }`}
+            >
+              <div className="flex gap-3 items-center">
+                {/* Display the icon and title */}
+                <p className="text-[18px]">{data.icon}</p>
+                {data.title}
+              </div>
+
+              {/* Notification Badge with spacing */}
+              <p className="ml-auto bg-[#F50400] rounded-full w-3 h-3 flex items-center justify-center p-3 text-white">
+                {categoryCounts[data.link] || 0}{" "}
+                {/* Display the category count */}
+              </p>
+            </Link>
+            // </Link>
+          ))}
+        </div>
+
+        {/* Home and Bookmark Buttons */}
+        <div className="mx-4 mr-4 text-black">
+          <Link
+            to={"/"}
+            className="text-[17px] flex px-2 py-2 items-center  gap-2 transition-all group hover:text-[#F50400]"
+          >
+            <IoHomeOutline />
+            Home
+          </Link>
+        </div>
+      </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -11,7 +11,7 @@ const Navbar = () => {
   const { logOut, user } = useAuth();
   const [isAdmin] = useAdmin();
   const [isBlogger] = useBlogger();
-console.log(isBlogger);
+// console.log(isBlogger);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const toggleSidebar = () => {
     setIsNavOpen(!isNavOpen);
@@ -139,7 +139,83 @@ console.log(isBlogger);
                 <FaPlus className="rotate-45" size={20} color="black" />
               </button>
             </div>
-            <div className="pt-4 px-2">{/* <HomeOrderCart /> */}</div>
+            <div className="pt-4 px-2">
+            <div className="flex flex-col text-black gap-2  ">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#d6d6d6]"
+                : "px-5 py-2 text-[#1F2937] hover:text-[#F50400]"
+            }
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/blogs"
+            className={({ isActive }) =>
+              isActive
+                ? "px-5 py-2  text-[#F50400] rounded-sm bg-[#d6d6d6]"
+                : "px-5 py-2 text-[#1F2937] hover:text-[#F50400]"
+            }
+          >
+            Blogs
+          </NavLink>
+          <NavLink
+            to="/about-us"
+            className={({ isActive }) =>
+              isActive
+                ? "px-5 py-2 text-[#F50400]   rounded-sm bg-[#d6d6d6]"
+                : "px-5 py-2 text-[#1F2937] hover:text-[#F50400]"
+            }
+          >
+            About Us
+          </NavLink>
+          {
+            isAdmin &&  <NavLink
+            to="/dashboard/admin"
+            className={({ isActive }) =>
+              isActive
+                ? "px-5 py-2 text-[#F50400]   rounded-sm bg-[#d6d6d6]"
+                : "px-5 py-2 text-[#1F2937] hover:text-[#F50400]"
+            }
+          >
+            Dashboard
+          </NavLink>
+          }
+          {
+            isBlogger &&  <NavLink
+            to="/dashboard/blogger"
+            className={({ isActive }) =>
+              isActive
+                ? "px-5 py-2 text-[#F50400]   rounded-sm bg-[#d6d6d6]"
+                : "px-5 py-2 text-[#1F2937] hover:text-[#F50400]"
+            }
+          >
+            Dashboard
+          </NavLink>
+          }
+         
+         
+        </div>
+        {/* Login Logout */}
+        <div>
+          {user ? (
+            <button onClick={handleLogOut} to="/signin" className="text-white">
+              <button className="flex items-center justify-center gap-1 rounded font-medium bg-[#F50400] px-5 py-2 text-white transition-all duration-300 ease-in-out group">
+                Logout{" "}
+                <MdLogout   className="transform transition-transform duration-300 ease-in-out group-hover:translate-x-2" size={21} />
+              </button>
+            </button>
+          ) : (
+            <Link to="/signin" className="text-white">
+              <button className="flex items-center justify-center gap-1 rounded font-medium bg-[#F50400] px-5 py-2 text-white transition-all duration-300 ease-in-out group">
+                Login <LuLogIn   className="transform transition-transform duration-300 ease-in-out group-hover:translate-x-2" size={21} />
+              </button>
+            </Link>
+          )}
+        </div>
+            </div>
           </div>
         </div>
       </div>

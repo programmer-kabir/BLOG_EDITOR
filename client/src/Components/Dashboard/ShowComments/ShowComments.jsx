@@ -60,21 +60,42 @@ const ShowComments = ({ id }) => {
     <div className="px-5 pt-5">
       {currentComments?.comments?.map((comment) => (
         <div className="mt-5">
-          <div className="border rounded px-5 py-4">
+          <div className="border rounded md:px-5 px-2 py-2 md:py-4">
             <div className="flex items-center gap-3">
               <img
-                className="h-10 w-10 rounded-full"
+                className="md:h-10 md:w-10 w-7 h-7 rounded-full"
                 src={comment.image}
                 alt="Profile Image"
               />
-              <p>{comment.name}</p>
+              <p className="text-sm md:text-base">{comment.name}</p>
+              <div className="md:hidden">
+              {comment.email === user?.email && (
+                <div className="space-x-3 flex">
+                  <button
+                    onClick={toggleCommentModal}
+                    className="whitespace-nowrap rounded-md text-sm  ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground  px-4 py-1"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleCommentDelete(comment.id)
+                    }
+                    className="whitespace-nowrap rounded-md text-sm  ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground  px-4 py-2"
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
+              </div>
             </div>
             {/*  */}
-            <div className="pt-2 flex items-center justify-between">
+            <div className="pt-5 md:pt-2 flex items-center justify-between">
               <p className="text-sm text-start p-2 rounded-lg bg-background">
                 {comment.comment}
               </p>
-              {comment.email === user.email && (
+             <div className="hidden md:flex">
+             {comment.email === user?.email && (
                 <div className="space-x-3">
                   <button
                     onClick={toggleCommentModal}
@@ -92,6 +113,7 @@ const ShowComments = ({ id }) => {
                   </button>
                 </div>
               )}
+             </div>
             </div>
           </div>
           {isCommentModal && (

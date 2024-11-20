@@ -72,8 +72,8 @@ const AllBlogCard = ({ data, link }) => {
             <RiWhatsappFill color="#25D366" size={22} />
             <FaFacebook color="#316FF6" size={20} />
             <FaLinkedin color="#0077B5" size={20} />
+            
             <FaCopy size={18} color="#000" />
-            <FaBookmark size={17} color="#000" />
           </div>
           <button className="flex items-center gap-1">
             <BiSolidLike size={21} /> {data?.like?.count}

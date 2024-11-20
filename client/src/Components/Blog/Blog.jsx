@@ -39,7 +39,7 @@ const Blog = () => {
         <BsSlashLg />
         <p>{name}</p>
       </div>
-      <div className="grid lg:grid-cols-3 gap-7 pt-7 px-5">
+      <div className="grid lg:grid-cols-3 gap-7 pt-7 px-0 md:px-5">
         {/* Check if there are any blogs to display */}
         {blogsToDisplay.length === 0 ? (
           <div className="flex items-center justify-center col-span-3 my-auto ">

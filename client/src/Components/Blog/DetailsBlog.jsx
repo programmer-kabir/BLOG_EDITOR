@@ -75,10 +75,13 @@ const DetailsBlog = () => {
     setIsShareModal(!isShareModal);
   };
   const handleLike = async () => {
+    if (!user) {
+      return toast.error("please Login ");
+    }
     try {
       const updatedData = {
         id: currentBlog._id,
-        email: user.email,
+        email: user?.email,
       };
 
       // Optimistically update like count
@@ -112,6 +115,9 @@ const DetailsBlog = () => {
   };
 
   const handleComment = async (id) => {
+    if (!user) {
+      return toast.error("please Login ");
+    }
     if (comment.trim() === "") {
       toast.error("Please enter a comment before submitting.");
       return;
@@ -121,7 +127,7 @@ const DetailsBlog = () => {
       comment: {
         name: user.displayName,
         image: user.photoURL,
-        email: user.email,
+        email: user?.email,
         text: comment,
       },
     };
@@ -147,15 +153,30 @@ const DetailsBlog = () => {
   if (isBlogLoading) return <Loader />;
   if (isBlogError || !currentBlog) return <div>Blog not found</div>;
 
+  // Copy link
+  const baseUrl = "http://localhost:5173/blogs/details/";
+
+  const handleCopyClick = (id) => {
+    const copyUrl = `${baseUrl}${id}`;
+    // console.log(copyUrl);
+    navigator.clipboard
+      .writeText(copyUrl)
+      .then(() => {
+        toast.success("Link copied to clipboard!");
+      })
+      .catch((err) => {
+        toast.error("Failed to copy: ", err);
+      });
+  };
   return (
-    <section className="px-5">
-      <div className=" border mt-7 rounded">
+    <section className="md:px-5 px-2">
+      <div className=" border mt-7 rounded pb-12">
         <img
           src={currentBlog?.photo}
           alt={currentBlog?.title}
-          className="w-full h-[500px] object-fill rounded-t"
+          className="w-full md:h-[500px] object-fill rounded-t"
         />
-        <div className="pt-5 flex items-center justify-between border-b px-5 py-2">
+        <div className="pt-5 flex items-center justify-between border-b md:px-5 py-2">
           <div className="flex items-center gap-2  px-2">
             <img
               className="h-9 w-9 rounded-full"
@@ -171,7 +192,7 @@ const DetailsBlog = () => {
           </p>
         </div>
 
-        <div className="space-y-5 px-5 pt-5">
+        <div className="md:space-y-5 space-y-2 px-5 md:pt-5 pt-2">
           <h2 className="md:text-2xl text-xl font-semibold">
             {currentBlog?.title}
           </h2>
@@ -185,7 +206,8 @@ const DetailsBlog = () => {
         </div>
 
         <ShowComments id={currentBlog._id} />
-        <div className="my-4 px-5 flex items-center justify-center gap-4">
+        {/*  large devicelike ocmment */}
+        <div className="my-4 px-5 hidden md:flex items-center justify-center gap-4">
           {/*  */}
 
           <button
@@ -203,64 +225,86 @@ const DetailsBlog = () => {
           <button onClick={toggleShareModal}>
             <BiSolidShareAlt size={25} color="#000" />
           </button>
-          <FaBookmark size={20} color="#000" />
-          {(isCommentModal || isShareModal) && (
-            <div
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
-              onClick={() => {
-                setIsCommentModal(false);
-                setIsShareModal(false);
-              }}
-            ></div>
-          )}
-
-          {/* Comment Modal */}
-          {isCommentModal && (
-            <div className="fixed top-1/2 w-[450px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-6 bg-white  rounded-lg shadow-lg z-50">
-              <h2 className="text-xl font-semibold mb-3  ">Comment</h2>
-              <div className="flex flex-col items-end">
-                <input
-                  type="text"
-                  name=""
-                  className="outline-none border border-gray-300 px-4 rounded py-2 w-full"
-                  placeholder="Enter Your Comment"
-                  id=""
-                  value={comment} // Bind input value to state
-                  onChange={(e) => setComment(e.target.value)}
-                />
-                <button
-                  className="mt-2 flex items-center justify-end bg-blue-500 text-white px-4 py-2 rounded"
-                  onClick={() => handleComment(currentBlog._id)}
-                >
-                  Submit
-                </button>
-              </div>
-            </div>
-          )}
-          {/* Share Modal */}
-          {isShareModal && (
-            <div className="fixed top-1/2 w-[450px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-6 bg-white  rounded-lg shadow-lg z-50">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold mb-3  ">
-                  Share Social Media
-                </h2>
-                <button onClick={toggleShareModal}>
-                  <FaPlus className="rotate-45" />
-                </button>
-              </div>
-              <div className="flex  items-center justify-center gap-5">
-                <RiWhatsappFill color="#25D366" size={35} />
-                <FaFacebook color="#316FF6" size={32} />
-                <FaLinkedin color="#0077B5" size={30} />
-                <FaCopy size={23} color="#000" />
-              </div>
-            </div>
-          )}
         </div>
-      </div>
+        {/* small device like comment */}
 
+        {(isCommentModal || isShareModal) && (
+          <div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+            onClick={() => {
+              setIsCommentModal(false);
+              setIsShareModal(false);
+            }}
+          ></div>
+        )}
+
+        {/* Comment Modal */}
+        {/* {isCommentModal && (
+          <div className="fixed top-1/2 w-[250px] md:w-[250px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-6 bg-white  rounded-lg shadow-lg z-50">
+            <h2 className="text-xl font-semibold mb-3  ">Comment</h2>
+            <div className="flex flex-col items-end">
+              <input
+                type="text"
+                name=""
+                className="outline-none border border-gray-300 px-4 rounded py-2 w-full"
+                placeholder="Enter Your Comment"
+                id=""
+                value={comment} // Bind input value to state
+                onChange={(e) => setComment(e.target.value)}
+              />
+              <button
+                className="mt-2 flex items-center justify-end bg-blue-500 text-white px-4 py-2 rounded"
+                onClick={() => handleComment(currentBlog._id)}
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        )} */}
+        {/* Share Modal */}
+        {isShareModal && (
+          <div className="fixed top-1/2 w-[450px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-6 bg-white  rounded-lg shadow-lg z-50">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold mb-3  ">
+                Share Social Media
+              </h2>
+              <button onClick={toggleShareModal}>
+                <FaPlus className="rotate-45" />
+              </button>
+            </div>
+            <div className="flex  items-center justify-center gap-5">
+              <RiWhatsappFill color="#25D366" size={35} />
+              <FaFacebook color="#316FF6" size={32} />
+              <FaLinkedin color="#0077B5" size={30} />
+              <button onClick={() => handleCopyClick(currentBlog._id)}>
+                <FaCopy size={23} color="#000" />
+              </button>
+              {/* <FaCopy size={23} color="#000" /> */}
+            </div>
+          </div>
+        )}
+      </div>
+      <div className="rounded-md fixed left-0  bottom-0  w-full z-20 bg-white md:hidden border py-2 flex items-center justify-center gap-4">
+        {/*  */}
+
+        <button
+          onClick={() => handleLike(currentBlog._id)}
+          className="flex items-center gap-1"
+        >
+          <BiSolidLike size={22} /> {likeCount}
+        </button>
+        <button
+          onClick={toggleCommentModal}
+          className="flex items-center gap-1"
+        >
+          <FaComment size={22} /> {currentComments?.comments.length}
+        </button>
+        <button onClick={toggleShareModal}>
+          <BiSolidShareAlt size={25} color="#000" />
+        </button>
+      </div>
       {isCommentModal && (
-        <div className="fixed top-1/2 w-[450px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-6 bg-white rounded-lg shadow-lg z-50">
+        <div className="fixed top-1/2 w-[250px] md:w-[450px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-6 bg-white rounded-lg shadow-lg z-50">
           <h2 className="text-xl font-semibold mb-3">Comment</h2>
           <input
             type="text"

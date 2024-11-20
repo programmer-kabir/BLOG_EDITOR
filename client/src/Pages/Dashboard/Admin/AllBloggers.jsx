@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { formatDate } from "../../../Components/DateFomate/DateFormate";
 import axios from "axios";
 // import toast form 'react-hot-toast'
-import toast from 'react-hot-toast'
+import toast from "react-hot-toast";
 import { IoIosArrowForward } from "react-icons/io";
 
 const AllBloggers = () => {
@@ -15,7 +15,7 @@ const AllBloggers = () => {
   );
   useEffect(() => {
     dispatch(fetchUsers());
-  }, [dispatch,Users]);
+  }, [dispatch, Users]);
 
   const bloggers = Users.filter((user) => user.role === "blogger");
   const handleDelete = (email) => {
@@ -35,11 +35,12 @@ const AllBloggers = () => {
         //   icon: "success",
         // });
         console.log(email);
-        axios.delete(`http://localhost:3000/users/${email}`)
-        .then(res=>{
-          console.log(res.data);
-          toast.success(res.data.message)
-        })
+        axios
+          .delete(`https://blog-editor-serverr.vercel.app/users/${email}`)
+          .then((res) => {
+            console.log(res.data);
+            toast.success(res.data.message);
+          });
       }
     });
   };
@@ -118,8 +119,10 @@ const AllBloggers = () => {
                     {formatDate(user.date)}
                   </td>
                   <td className="px-6 py-4 font-normal text-gray-900 whitespace-nowrap ">
-                    <button onClick={()=>handleDelete(user.email)} className="px-3 py-2 border  rounded-md hover:bg-[#f3f3f3]">
-                       
+                    <button
+                      onClick={() => handleDelete(user.email)}
+                      className="px-3 py-2 border  rounded-md hover:bg-[#f3f3f3]"
+                    >
                       Delete
                     </button>
                   </td>
@@ -129,25 +132,27 @@ const AllBloggers = () => {
           </table>
         </div>
         <div className="flex gap-3 justify-end pr-5 items-center mt-4">
-      <span className="text-sm">Page {currentPage} of {totalPages}</span>
+          <span className="text-sm">
+            Page {currentPage} of {totalPages}
+          </span>
 
-        <button
-          onClick={prevPage}
-          disabled={currentPage === 1}
-          className="p-1 rotate-180 border rounded disabled:text-gray-500"
-        >
-          <IoIosArrowForward />
-        </button>
-        <div className="flex items-center gap-4">
           <button
-            onClick={nextPage}
-            disabled={currentPage === totalPages}
-            className="p-1 border rounded disabled:text-gray-500"
+            onClick={prevPage}
+            disabled={currentPage === 1}
+            className="p-1 rotate-180 border rounded disabled:text-gray-500"
           >
-           <IoIosArrowForward />
+            <IoIosArrowForward />
           </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={nextPage}
+              disabled={currentPage === totalPages}
+              className="p-1 border rounded disabled:text-gray-500"
+            >
+              <IoIosArrowForward />
+            </button>
+          </div>
         </div>
-      </div>
       </div>
     </section>
   );

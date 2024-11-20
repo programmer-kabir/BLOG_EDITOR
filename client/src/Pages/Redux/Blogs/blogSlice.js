@@ -2,7 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 export const fetchBlogs = createAsyncThunk("blogs/fetchBlogs", async () => {
   try {
-    const response = await axios.get("http://localhost:3000/blogs");
+    const response = await axios.get(
+      "https://blog-editor-serverr.vercel.app/blogs"
+    );
     return response.data;
   } catch (error) {
     throw error;

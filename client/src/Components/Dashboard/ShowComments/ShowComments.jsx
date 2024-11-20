@@ -29,10 +29,12 @@ const ShowComments = ({ id }) => {
       comment: isComment,
     };
     // console.log(data);
-    axios.put("http://localhost:3000/comments", data).then((response) => {
-      // console.log(response.data);
-      toast.success(response?.data?.message);
-    });
+    axios
+      .put("https://blog-editor-serverr.vercel.app/comments", data)
+      .then((response) => {
+        // console.log(response.data);
+        toast.success(response?.data?.message);
+      });
     setIsComment("");
     setIsCommentModal(false);
   };
@@ -45,13 +47,13 @@ const ShowComments = ({ id }) => {
     };
 
     axios
-      .delete("http://localhost:3000/comments", { data })
+      .delete("https://blog-editor-serverr.vercel.app/comments", { data })
       .then((response) => {
         // console.log(response.data);
-        toast.success(response?.data?.message)
+        toast.success(response?.data?.message);
       })
       .catch((error) => {
-        toast.error(error)
+        toast.error(error);
         // console.error("Error deleting comment:", error);
       });
   };
@@ -69,24 +71,22 @@ const ShowComments = ({ id }) => {
               />
               <p className="text-sm md:text-base">{comment.name}</p>
               <div className="md:hidden">
-              {comment.email === user?.email && (
-                <div className="space-x-3 flex">
-                  <button
-                    onClick={toggleCommentModal}
-                    className="whitespace-nowrap rounded-md text-sm  ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground  px-4 py-1"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() =>
-                      handleCommentDelete(comment.id)
-                    }
-                    className="whitespace-nowrap rounded-md text-sm  ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground  px-4 py-2"
-                  >
-                    Delete
-                  </button>
-                </div>
-              )}
+                {comment.email === user?.email && (
+                  <div className="space-x-3 flex">
+                    <button
+                      onClick={toggleCommentModal}
+                      className="whitespace-nowrap rounded-md text-sm  ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground  px-4 py-1"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleCommentDelete(comment.id)}
+                      className="whitespace-nowrap rounded-md text-sm  ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground  px-4 py-2"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
             {/*  */}
@@ -94,26 +94,24 @@ const ShowComments = ({ id }) => {
               <p className="text-sm text-start p-2 rounded-lg bg-background">
                 {comment.comment}
               </p>
-             <div className="hidden md:flex">
-             {comment.email === user?.email && (
-                <div className="space-x-3">
-                  <button
-                    onClick={toggleCommentModal}
-                    className="whitespace-nowrap rounded-md text-sm  ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() =>
-                      handleCommentDelete(comment.id)
-                    }
-                    className="whitespace-nowrap rounded-md text-sm  ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
-                  >
-                    Delete
-                  </button>
-                </div>
-              )}
-             </div>
+              <div className="hidden md:flex">
+                {comment.email === user?.email && (
+                  <div className="space-x-3">
+                    <button
+                      onClick={toggleCommentModal}
+                      className="whitespace-nowrap rounded-md text-sm  ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleCommentDelete(comment.id)}
+                      className="whitespace-nowrap rounded-md text-sm  ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           {isCommentModal && (

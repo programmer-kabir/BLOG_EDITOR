@@ -126,13 +126,15 @@ const AddBlog = () => {
       const blogData = { ...finalData, photo };
 
       // Send blog data to the server
-      axios.post("http://localhost:3000/blogs", blogData).then((response) => {
-        console.log(response.data);
-        if (response.data.insertedId) {
-          toast.success("Your Blog is Successfully Upload");
-          navigate("../blogger/show-blog");
-        }
-      });
+      axios
+        .post("https://blog-editor-serverr.vercel.app/blogs", blogData)
+        .then((response) => {
+          console.log(response.data);
+          if (response.data.insertedId) {
+            toast.success("Your Blog is Successfully Upload");
+            navigate("../blogger/show-blog");
+          }
+        });
     } catch (error) {
       console.error("Error:", error);
       toast.error("An error occurred. Please try again.");

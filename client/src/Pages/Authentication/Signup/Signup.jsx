@@ -23,10 +23,10 @@ const Signup = () => {
   const url =
     "https://api.imgbb.com/1/upload?key=f1e08dc7c44c396aa409d50dfcc797da";
   const onSubmit = (data) => {
-    const today = new Date().toLocaleDateString('en-CA'); // Format: YYYY-MM-DD
+    const today = new Date().toLocaleDateString("en-CA"); // Format: YYYY-MM-DD
     let finalData = {
       ...data,
-      date:today,
+      date: today,
       role: activeTab,
     };
     delete finalData.image;
@@ -43,19 +43,17 @@ const Signup = () => {
       .then((res) => res.json())
       .then((image) => {
         const photo = image?.data?.display_url;
-          // Add the photo URL to finalData
-      finalData = {
-        ...finalData,
-        photo, // Add the photo URL instead of the image file
-      };
+        // Add the photo URL to finalData
+        finalData = {
+          ...finalData,
+          photo, // Add the photo URL instead of the image file
+        };
         RegisterUser(data.email, data.password)
           .then((result) => {
             const user = result.user;
-            updateUserProfile(data.name, photo)
-            .then((response) => {
-              
+            updateUserProfile(data.name, photo).then((response) => {
               axios
-                .post("http://localhost:3000/users",  finalData )
+                .post("https://blog-editor-serverr.vercel.app/users", finalData)
                 .then((data) => {
                   if (data.data.insertedId) {
                     toast.success("Register Successfully");
@@ -63,9 +61,9 @@ const Signup = () => {
                     console.log(data.data);
                   }
                 })
-                .catch(error =>{
+                .catch((error) => {
                   console.log(error);
-                })
+                });
             });
           })
           .catch((error) => {

@@ -73,7 +73,7 @@ async function run() {
     app.patch("/users/admin/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
-      console.log(filter);
+      // console.log(filter);
       // // console.log(filter);
       const updatedDoc = {
         $set: {
@@ -105,7 +105,7 @@ async function run() {
       try {
         // Check if the user exists
         const existingUser = await usersCollection.findOne(query);
-        console.log("User Found:", existingUser);
+        // console.log("User Found:", existingUser);
 
         // If user does not exist, return a 404 response
         if (!existingUser) {
@@ -114,7 +114,7 @@ async function run() {
 
         // Delete the user from the database
         const result = await usersCollection.deleteOne(query);
-        console.log("Deleted Count:", result.deletedCount);
+        // console.log("Deleted Count:", result.deletedCount);
 
         // Send success response
         if (result.deletedCount > 0) {
@@ -123,7 +123,7 @@ async function run() {
           res.status(500).json({ message: "Failed to delete user" });
         }
       } catch (error) {
-        console.error("Error deleting user:", error);
+        // console.error("Error deleting user:", error);
         res.status(500).json({ message: "Server error" });
       }
     });
@@ -159,7 +159,7 @@ async function run() {
     });
     app.put("/blogs", async (req, res) => {
       const data = req.body;
-      console.log(data);
+      // console.log(data);
       if (data?.status === "approved") {
         const filter = { _id: new ObjectId(data.blogId) };
         const updateDoc = {
@@ -201,7 +201,7 @@ async function run() {
 
     app.get("/bloggersBlog", async (req, res) => {
       const email = req.query.email;
-      console.log(email);
+      // console.log(email);
       if (!email) {
         res.send([]);
       }
@@ -257,7 +257,7 @@ async function run() {
           res.send({ message: "New comment document created", result });
         }
       } catch (error) {
-        console.error("Error adding comment:", error);
+        // console.error("Error adding comment:", error);
         res.status(500).send({ message: "Internal Server Error" });
       }
     });
@@ -271,13 +271,13 @@ async function run() {
         const existingBlogComments = await commentsCollection.findOne({
           blogId,
         });
-        console.log(existingBlogComments);
+        // console.log(existingBlogComments);
         if (existingBlogComments) {
           // Check if the comment with the specified id exists
           const commentExists = existingBlogComments.comments.find((c) =>
             c.id.equals(commentId)
           );
-          console.log(commentExists);
+          // console.log(commentExists);
           if (commentExists) {
             // Update the specific comment by matching its id
             const result = await commentsCollection.updateOne(
@@ -301,7 +301,7 @@ async function run() {
           res.status(404).send({ message: "Blog ID not found" });
         }
       } catch (error) {
-        console.error("Error updating comment:", error);
+        // console.error("Error updating comment:", error);
         res.status(500).send({ message: "Internal Server Error" });
       }
     });
@@ -332,7 +332,7 @@ async function run() {
 
 app.delete("/comments", async (req, res) => {
   const { blogId, id } = req.body; // Get blogId and comment id from request body
-  console.log("Blog ID:", blogId, "Comment ID:", id);
+  // console.log("Blog ID:", blogId, "Comment ID:", id);
 
   try {
     // Convert the comment id to ObjectId
@@ -354,7 +354,7 @@ app.delete("/comments", async (req, res) => {
       res.status(404).send({ message: "Comment or Blog ID not found" });
     }
   } catch (error) {
-    console.error("Error deleting comment:", error);
+    // console.error("Error deleting comment:", error);
     res.status(500).send({ message: "Internal Server Error" });
   }
 });

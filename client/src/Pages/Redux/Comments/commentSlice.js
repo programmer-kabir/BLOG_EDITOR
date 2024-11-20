@@ -4,7 +4,9 @@ export const fetchComments = createAsyncThunk(
   "comments/fetchComments",
   async () => {
     try {
-      const response = await axios.get("http://localhost:3000/comments");
+      const response = await axios.get(
+        "https://blog-editor-serverr.vercel.app/comments"
+      );
       return response.data;
     } catch (error) {
       throw error;

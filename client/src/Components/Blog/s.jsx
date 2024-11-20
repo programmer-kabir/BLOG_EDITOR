@@ -41,7 +41,7 @@ const DetailsBlog = () => {
     dispatch(fetchUsers());
     dispatch(fetchComments());
   }, [dispatch]);
-console.log(Comments);
+  console.log(Comments);
   // Ensure Blogs is populated before trying to find a specific blog
   const currentBlog =
     Blogs && Blogs.length > 0 ? Blogs.find((blog) => blog._id === id) : null;
@@ -50,7 +50,7 @@ console.log(Comments);
   const monthDifference = calculateMonthDifference(currentBlog?.date);
 
   const [isCommentModal, setIsCommentModal] = useState(false);
-  const [comment, setComment] = useState(''); // State to store comment value
+  const [comment, setComment] = useState(""); // State to store comment value
 
   const toggleCommentModal = () => {
     setIsCommentModal(!isCommentModal);
@@ -81,7 +81,7 @@ console.log(Comments);
 
       // Update the blog on the server
       const response = await axios.put(
-        `http://localhost:3000/blogs`,
+        `https://blog-editor-serverr.vercel.app/blogs`,
         updatedData
       );
       // console.log("Blog liked successfully:", response.data);
@@ -93,9 +93,9 @@ console.log(Comments);
     }
   };
 
-  const handleComment = async(id) => {
-    if (comment.trim() === '') {
-      toast.error('Please enter a comment before submitting.');
+  const handleComment = async (id) => {
+    if (comment.trim() === "") {
+      toast.error("Please enter a comment before submitting.");
       return;
     }
     const commentData = {
@@ -107,24 +107,29 @@ console.log(Comments);
     };
     try {
       // Send a POST request to save the comment in the backend
-      const response= await axios.post('http://localhost:3000/comments', commentData);
+      const response = await axios.post(
+        "https://blog-editor-serverr.vercel.app/comments",
+        commentData
+      );
 
       if (response.status === 200) {
-        toast.success('Comment added successfully!');
+        toast.success("Comment added successfully!");
       } else {
-        toast.error('Failed to add comment.');
+        toast.error("Failed to add comment.");
       }
     } catch (error) {
-      console.error('Error posting comment:', error);
-      toast.error('An error occurred while posting the comment.');
+      console.error("Error posting comment:", error);
+      toast.error("An error occurred while posting the comment.");
     }
 
     // Reset the comment input field and close the modal
-    setComment('');
+    setComment("");
     setIsCommentModal(false);
   };
 
-  const currentComment = Comments.filter(comment =>comment.blogId === currentBlog._id)
+  const currentComment = Comments.filter(
+    (comment) => comment.blogId === currentBlog._id
+  );
   console.log(currentComment);
   return (
     <section className="px-5">
@@ -222,11 +227,11 @@ console.log(Comments);
                   placeholder="Enter Your Comment"
                   id=""
                   value={comment} // Bind input value to state
-              onChange={(e) => setComment(e.target.value)}
+                  onChange={(e) => setComment(e.target.value)}
                 />
                 <button
                   className="mt-2 flex items-center justify-end bg-blue-500 text-white px-4 py-2 rounded"
-                  onClick={()=>handleComment(currentBlog._id)}
+                  onClick={() => handleComment(currentBlog._id)}
                 >
                   Submit
                 </button>

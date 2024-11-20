@@ -49,8 +49,8 @@ const handleCopy = (text, label) => {
       .catch((err) => console.error("Failed to copy: ", err));
   };
   return (
-    <section className="mt-[120px]">
-      <div className="max-w-xl mx-auto w-full space-y-4 rounded-lg border py-7">
+    <section className="mt-[120px] px-2">
+      <div className="max-w-xl  mx-auto w-full space-y-4 rounded-lg border py-7">
         {/* Heading */}
         <div className="border-b w-full flex flex-col items-center space-y-1 text-center pb-4">
           <h2 className="text-2xl font-semibold text-primary capitalize">

@@ -165,7 +165,7 @@ const AdminBoard = () => {
   // }
 
   return (
-    <section className="w-[95%] mx-auto pt-10">
+    <section className="w-[95%] mx-auto pt-10 pb-10">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         {/* Card Components */}
         <div className="border p-5 rounded-lg">

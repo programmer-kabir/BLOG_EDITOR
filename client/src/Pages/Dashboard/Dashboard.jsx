@@ -164,13 +164,7 @@ const Dashboard = () => {
                         size={21}
                       />
                     </button>
-                    <button className="flex border-b justify-start items-center  gap-1 rounded font-medium hover:bg-[#F5F5F5] px-5 py-2 text-[#737373] w-full transition-all duration-300 ease-in-out group">
-                      Setting
-                      <SlSettings
-                        className="transform transition-transform duration-300 ease-in-out group-hover:translate-x-2"
-                        size={21}
-                      />
-                    </button>
+                   
                     <button   onClick={handleLogOut} className="flex items-center my-1 mx-2 gap-1 rounded font-medium hover:bg-[#F5F5F5] px-5 py-2 text-[#737373] w-full transition-all duration-300 ease-in-out group">
                       Logout{" "}
                       <MdLogout
@@ -213,7 +207,98 @@ const Dashboard = () => {
                   <FaPlus className="rotate-45" size={20} color="black" />
                 </button>
               </div>
-              <div className="pt-4 px-2">{/* <HomeOrderCart /> */}</div>
+              <div className="pt-4 px-2">
+                <div>
+                    {/* Admin Section */}
+          {isAdmin && (
+            <div className="flex flex-col gap-2  text-sm">
+              <NavLink
+                to="admin"
+                end
+                className={({ isActive }) =>
+                  isActive
+                    ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
+                    : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+                }
+              >
+                Dashboard
+              </NavLink>
+              <NavLink
+                to="admin/show-bloggers"
+                className={({ isActive }) =>
+                  isActive
+                    ? "px-5 py-2  text-[#F50400] rounded-sm bg-[#f5f5f5]"
+                    : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+                }
+              >
+                Bloggers
+              </NavLink>
+              {user.email === 'kabirr@gmail.com' &&  <NavLink
+                to="admin/show-users"
+                className={({ isActive }) =>
+                  isActive
+                    ? "px-5 py-2  text-[#F50400] rounded-sm bg-[#f5f5f5]"
+                    : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+                }
+              >
+                Users
+              </NavLink>}
+             
+
+              <NavLink
+                to="admin/blogs"
+                className={({ isActive }) =>
+                  isActive
+                    ? "px-5 py-2 text-[#F50400]  rounded-sm bg-[#f5f5f5]"
+                    : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+                }
+              >
+                Blogs
+              </NavLink>
+            
+            </div>
+          )}
+        
+          {/* isBlogger Section */}
+          {isBlogger && ( 
+            <div className="flex flex-col gap-2  text-sm">
+              <NavLink
+                to="blogger"
+                end
+                className={({ isActive }) =>
+                  isActive
+                    ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
+                    : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+                }
+              >
+                Dashboard
+              </NavLink>
+              <NavLink
+                to="blogger/add-blog"
+                end
+                className={({ isActive }) =>
+                  isActive
+                    ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
+                    : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+                }
+              >
+                Add Blog
+              </NavLink>
+              <NavLink
+                to="blogger/show-blog"
+                end
+                className={({ isActive }) =>
+                  isActive
+                    ? "px-5 text-[#F50400]  py-2 rounded-sm bg-[#f5f5f5]"
+                    : "px-5 py-2  text-[#737373] hover:text-[#F50400]"
+                }
+              >
+                Show Blog
+              </NavLink>
+            </div>
+          )}
+                </div>
+              </div>
             </div>
           </div>
         </div>

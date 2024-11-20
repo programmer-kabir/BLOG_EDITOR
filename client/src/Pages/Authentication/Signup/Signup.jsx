@@ -82,7 +82,7 @@ const Signup = () => {
       <div className="bg-[#F5F5F5] p-1 flex items-center justify-between">
         <button
           onClick={() => setActiveTab("user")}
-          className={`px-4 py-2 rounded w-1/2 text-sm ${
+          className={`px-4 py-2 rounded w-1/2 text-[12px] md:text-sm ${
             activeTab === "user"
               ? "bg-white text-black shadow"
               : "bg-transparent text-[#737373]"
@@ -94,7 +94,7 @@ const Signup = () => {
         {/* Blogger Tab */}
         <button
           onClick={() => setActiveTab("blogger")}
-          className={`px-4 py-2 rounded w-1/2 ${
+          className={`px-4 py-2 rounded w-1/2 text-[12px] md:text-sm${
             activeTab === "blogger"
               ? "bg-white text-black shadow"
               : "bg-transparent text-[#737373]"
@@ -110,7 +110,7 @@ const Signup = () => {
             Register as {activeTab == "user" ? "User" : "Blogger"}
           </h2>
           <Link
-            to="/signup"
+            to="/signin"
             className="text-primary hover:underline flex items-center gap-2"
           >
             Already have an account?
@@ -119,7 +119,7 @@ const Signup = () => {
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="px-7 pt-7 space-y-5">
           {/* Email And Name */}
-          <div className="flex items-center  gap-4">
+          <div className="md:flex items-center  gap-4">
             {/* Name */}
             <div className="md:w-1/2">
               <label
@@ -140,7 +140,7 @@ const Signup = () => {
               )}
             </div>
             {/* Email */}
-            <div className="md:w-1/2">
+            <div className="md:w-1/2 pt-5 md:pt-0">
               <label
                 htmlFor="email"
                 className="block text-xs font-medium text-gray-700"
@@ -193,7 +193,7 @@ const Signup = () => {
             )}
           </div>
           {/* Contact Number And Profile Photo */}
-          <div className="flex items-center  gap-4">
+          <div className="md:flex items-center  gap-4">
             {/* Contact Number */}
             <div className="md:w-1/2">
               <label
@@ -211,7 +211,7 @@ const Signup = () => {
               />
             </div>
             {/* Email */}
-            <div className="md:w-1/2">
+            <div className="md:w-1/2 pt-5 md:pt-0">
               <label
                 htmlFor="photo"
                 className="block text-xs font-medium text-gray-700"
